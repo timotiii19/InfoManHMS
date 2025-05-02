@@ -1,35 +1,24 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
-    <h2>Add Lab Procedure</h2>
-
-    {{-- include our back button --}}
-    @include('partials.back-to-dashboard')
-
-    
-    <form method="POST" action="{{ route('labprocedures.store') }}">
+<div class="container">
+    <h2>New Lab Procedure</h2>
+    <form method="POST" action="{{ route('lab-procedures.store') }}">
         @csrf
-
-        <select name="PatientID" class="form-control mb-2" required>
-            <option value="">Select Patient</option>
-            @foreach($patients as $p)
-                <option value="{{ $p->PatientID }}">{{ $p->Name }}</option>
+        <select name="patient_id" class="form-control mb-2" required>
+            @foreach($patients as $patient)
+                <option value="{{ $patient->id }}">{{ $patient->name }}</option>
             @endforeach
         </select>
-
-        <select name="DoctorID" class="form-control mb-2" required>
-            <option value="">Select Doctor</option>
-            @foreach($doctors as $d)
-                <option value="{{ $d->DoctorID }}">{{ $d->DoctorName }}</option>
+        <select name="doctor_id" class="form-control mb-2" required>
+            @foreach($doctors as $doctor)
+                <option value="{{ $doctor->id }}">{{ $doctor->doctor_name }}</option>
             @endforeach
         </select>
-
-        <input type="datetime-local" name="TestDate" class="form-control mb-2" required>
-        <textarea name="Result" class="form-control mb-2" placeholder="Result" rows="3" required></textarea>
-        <input type="date" name="DateReleased" class="form-control mb-2" required>
-
-        <button type="submit" class="btn btn-success">Save</button>
+        <input type="datetime-local" name="test_date" class="form-control mb-2" required>
+        <textarea name="result" class="form-control mb-2" placeholder="Test Result" required></textarea>
+        <input type="date" name="date_released" class="form-control mb-2" required>
+        <button type="submit" class="btn btn-primary">Submit Lab</button>
     </form>
 </div>
 @endsection

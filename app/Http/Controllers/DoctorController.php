@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Department;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,8 @@ class DoctorController extends Controller
 
     public function create()
     {
-        return view('doctors.create');
+        $departments = Department::all();
+        return view('doctors.create', compact('departments'));
     }
 
     public function store(Request $request)

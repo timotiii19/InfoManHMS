@@ -1,31 +1,46 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
-    <h2>Add Doctor</h2>
-
-    {{-- include our back button --}}
+<div class="container mt-5">
+    <h3>Add New Doctor</h3>
     @include('partials.back-to-dashboard')
-    
-    <form method="POST" action="{{ route('doctors.store') }}">
+
+    {{-- Ensure $departments is passed from the controller --}}
+    <form action="{{ route('doctors.store') }}" method="POST">
         @csrf
-        <input type="text" name="DoctorName" class="form-control mb-2" placeholder="Doctor Name" required>
-        <input type="email" name="Email" class="form-control mb-2" placeholder="Email" required>
-        <input type="text" name="Availability" class="form-control mb-2" placeholder="Availability" required>
-        <input type="text" name="ContactNumber" class="form-control mb-2" placeholder="Contact Number" required>
-        <select name="DoctorType" class="form-control mb-2" required>
-            <option value="">Select Doctor Type</option>
-            <option value="Regular">Regular</option>
-            <option value="Visiting">Visiting</option>
-        </select>
-        <input type="number" name="DepartmentID" class="form-control mb-2" placeholder="Department ID" required>
-        <input type="number" name="LocationID" class="form-control mb-2" placeholder="Location ID" required>
-        <select name="RoomType" class="form-control mb-2" required>
-            <option value="">Select Room Type</option>
-            <option value="Ward">Ward</option>
-            <option value="Private">Private</option>
-            <option value="Semi-Private">Semi-Private</option>
-        </select>
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Doctor Name</label>
+            <input type="text" name="DoctorName" class="form-control" value="{{ old('DoctorName') }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" name="Email" class="form-control" value="{{ old('Email') }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="department_id" class="form-label">Department</label>
+            <select name="DepartmentID" class="form-select" required>
+                <option value="">-- Select Department --</option>
+                @foreach($departments as $department)
+                    <option value="{{ $department->DepartmentID }}" {{ old('DepartmentID') == $department->DepartmentID ? 'selected' : '' }}>
+                        {{ $department->DepartmentName }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="availability" class="form-label">Availability</label>
+            <input type="text" name="Availability" class="form-control" value="{{ old('Availability') }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="contactNumber" class="form-label">Contact Number</label>
+            <input type="text" name="ContactNumber" class="form-control" value="{{ old('ContactNumber') }}">
+        </div>
+
         <button type="submit" class="btn btn-success">Save</button>
     </form>
 </div>
