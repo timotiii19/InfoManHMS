@@ -1,18 +1,29 @@
 <div class="mb-3">
     <label>Patient</label>
-    <select name="patient_id" class="form-control" required>
+    <select name="PatientID" class="form-control" required>
+        <option value="">Select patient</option>
         @foreach($patients as $patient)
-            <option value="{{ $patient->id }}" {{ (old('patient_id', $labProcedure->patient_id ?? '') == $patient->id) ? 'selected' : '' }}>
-                {{ $patient->name }}
+            <option value="{{ $patient->PatientID }}"
+                {{ old('PatientID', $labprocedure->PatientID ?? '') == $patient->PatientID ? 'selected' : '' }}>
+                {{ $patient->FirstName }} {{ $patient->LastName }}
             </option>
         @endforeach
     </select>
 </div>
+
 <div class="mb-3">
-    <label>Test Name</label>
-    <input type="text" name="test_name" class="form-control" value="{{ old('test_name', $labProcedure->test_name ?? '') }}" required>
+    <label>Procedure Type</label>
+    <input type="text" name="ProcedureType" class="form-control"
+           value="{{ old('ProcedureType', $labprocedure->ProcedureType ?? '') }}" required>
 </div>
+
+<div class="mb-3">
+    <label>Procedure Date</label>
+    <input type="date" name="ProcedureDate" class="form-control"
+           value="{{ old('ProcedureDate', $labprocedure->ProcedureDate ?? '') }}" required>
+</div>
+
 <div class="mb-3">
     <label>Results</label>
-    <textarea name="results" class="form-control" rows="3">{{ old('results', $labProcedure->results ?? '') }}</textarea>
+    <textarea name="Results" class="form-control">{{ old('Results', $labprocedure->Results ?? '') }}</textarea>
 </div>

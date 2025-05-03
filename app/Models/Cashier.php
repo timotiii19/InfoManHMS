@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Cashier extends Model
 {
-    protected $table = 'cashiers'; // Use the correct table name
-    protected $primaryKey = 'CashierID'; // Adjust if necessary
+    use HasFactory;
+
+    protected $primaryKey = 'CashierID';
 
     protected $fillable = [
-        'name',
+        'FirstName',
+        'LastName',
+        'Email',
+        'PhoneNumber',
     ];
 }

@@ -1,16 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-5">
-    <h3>Edit Department</h3>
-
-    {{-- include our back button --}}
-    @include('partials.back-to-dashboard')
-    
-    @include('departments.form', [
-        'route' => route('departments.update', $department->id),
-        'method' => 'PUT',
-        'department' => $department
-    ])
+<div class="container">
+    <h2>Edit Department</h2>
+    <form method="POST" action="{{ route('departments.update', $department) }}">
+        @csrf
+        @method('PUT')
+        @include('departments.form')
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
 </div>
 @endsection

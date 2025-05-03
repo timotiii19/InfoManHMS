@@ -2,29 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class LabProcedure extends Model
 {
-    protected $table = 'lab_procedures';
-    protected $primaryKey = 'LabProcedureID';
-    public $timestamps = false;
+    use HasFactory;
+
+    protected $primaryKey = 'ProcedureID';
 
     protected $fillable = [
         'PatientID',
-        'DoctorID',
-        'TestDate',
-        'Result',
-        'DateReleased',
+        'ProcedureType',
+        'ProcedureDate',
+        'Results',
     ];
 
-    // Relationships
-    public function patient() {
+    public function patient()
+    {
         return $this->belongsTo(Patient::class, 'PatientID');
     }
-
-    public function doctor() {
-        return $this->belongsTo(Doctor::class, 'DoctorID');
-    }
 }
-

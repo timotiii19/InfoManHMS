@@ -1,18 +1,27 @@
 <div class="mb-3">
     <label>Patient</label>
-    <select name="patient_id" class="form-control" required>
+    <select name="PatientID" class="form-control" required>
+        <option value="">Select Patient</option>
         @foreach($patients as $patient)
-            <option value="{{ $patient->id }}" {{ (old('patient_id', $emergency->patient_id ?? '') == $patient->id) ? 'selected' : '' }}>
-                {{ $patient->name }}
+            <option value="{{ $patient->PatientID }}"
+                {{ old('PatientID', $emergency->PatientID ?? '') == $patient->PatientID ? 'selected' : '' }}>
+                {{ $patient->FirstName }} {{ $patient->LastName }}
             </option>
         @endforeach
     </select>
 </div>
+
 <div class="mb-3">
-    <label>Emergency Type</label>
-    <input type="text" name="emergency_type" class="form-control" value="{{ old('emergency_type', $emergency->emergency_type ?? '') }}" required>
+    <label>Condition</label>
+    <input type="text" name="Condition" class="form-control" value="{{ old('Condition', $emergency->Condition ?? '') }}" required>
 </div>
+
 <div class="mb-3">
-    <label>Reported Time</label>
-    <input type="datetime-local" name="reported_time" class="form-control" value="{{ old('reported_time', isset($emergency) ? date('Y-m-d\TH:i', strtotime($emergency->reported_time)) : '') }}" required>
+    <label>Arrival Time</label>
+    <input type="datetime-local" name="ArrivalTime" class="form-control" value="{{ old('ArrivalTime', isset($emergency->ArrivalTime) ? date('Y-m-d\TH:i', strtotime($emergency->ArrivalTime)) : '') }}" required>
+</div>
+
+<div class="mb-3">
+    <label>Actions Taken</label>
+    <textarea name="ActionsTaken" class="form-control">{{ old('ActionsTaken', $emergency->ActionsTaken ?? '') }}</textarea>
 </div>

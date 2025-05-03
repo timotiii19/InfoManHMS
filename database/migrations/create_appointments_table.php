@@ -4,34 +4,25 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
+return new class extends Migration {
     public function up(): void
     {
-        Schema::create('emergencies', function (Blueprint $table) {
-            $table->id('EmergencyID');
+        Schema::create('appointments', function (Blueprint $table) {
+            $table->id('AppointmentID');
             $table->unsignedBigInteger('PatientID');
-            $table->unsignedBigInteger('NurseID');
             $table->unsignedBigInteger('DoctorID');
-            $table->dateTime('DateTime');
-            $table->string('EmergencyType', 100);
+            $table->dateTime('AppointmentDate');
+            $table->string('Reason')->nullable();
+            $table->string('Status', 20)->default('Scheduled'); // Scheduled, Completed, Cancelled
             $table->timestamps();
-        
+
             $table->foreign('PatientID')->references('PatientID')->on('patients')->onDelete('cascade');
-            $table->foreign('NurseID')->references('NurseID')->on('nurses')->onDelete('cascade');
             $table->foreign('DoctorID')->references('DoctorID')->on('doctors')->onDelete('cascade');
         });
-        
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('emergencies');
+        Schema::dropIfExists('appointments');
     }
 };

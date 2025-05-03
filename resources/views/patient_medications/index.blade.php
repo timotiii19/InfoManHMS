@@ -1,54 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-5">
-    <h3>Patient Medications</h3>
-
-    {{-- include our back button --}}
-    @include('partials.back-to-dashboard')
-
-    
+<div class="container">
+    <h2>Patient Medications</h2>
     <a href="{{ route('patient_medications.create') }}" class="btn btn-primary mb-3">Add Medication</a>
-
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
     <table class="table table-bordered">
         <thead>
-        <tr>
-            <th>Patient</th>
-            <th>Medicine</th>
-            <th>Doctor</th>
-            <th>Dosage</th>
-            <th>Frequency</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Actions</th>
-        </tr>
+            <tr>
+                <th>Patient</th><th>Medicine</th><th>Dosage</th><th>Frequency</th><th>Duration</th><th>Actions</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach($medications as $med)
+            @foreach($medications as $med)
             <tr>
-                <td>{{ $med->patient->name }}</td>
-                <td>{{ $med->medicine->Description ?? $med->medicine->name }}</td>
-                <td>{{ $med->doctor->DoctorName }}</td>
-                <td>{{ $med->dosage }}</td>
-                <td>{{ $med->frequency }}</td>
-                <td>{{ $med->StartDate }}</td>
-                <td>{{ $med->EndDate }}</td>
+                <td>{{ $med->patient->FirstName }} {{ $med->patient->LastName }}</td>
+                <td>{{ $med->pharmacy->MedicineName }}</td>
+                <td>{{ $med->Dosage }}</td>
+                <td>{{ $med->Frequency }}</td>
+                <td>{{ $med->Duration }}</td>
                 <td>
-                    <a href="{{ route('patient_medications.edit', $med->PatientMedicationID) }}"
-                       class="btn btn-sm btn-warning">Edit</a>
-                    <form action="{{ route('patient_medications.destroy', $med->PatientMedicationID) }}"
-                          method="POST" style="display:inline;">
+                    <a href="{{ route('patient_medications.edit', $med) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('patient_medications.destroy', $med) }}" method="POST" class="d-inline">
                         @csrf @method('DELETE')
-                        <button onclick="return confirm('Delete this record?')"
-                                class="btn btn-sm btn-danger">Delete</button>
+                        <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this record?')">Delete</button>
                     </form>
                 </td>
             </tr>
-        @endforeach
+            @endforeach
         </tbody>
     </table>
 </div>

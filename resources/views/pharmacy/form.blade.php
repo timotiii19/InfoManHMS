@@ -1,34 +1,24 @@
 <div class="mb-3">
     <label>Medicine Name</label>
-    <input type="text" name="medicine_name" class="form-control" value="{{ old('medicine_name', $pharmacy->medicine_name ?? '') }}" required>
+    <input type="text" name="MedicineName" class="form-control" value="{{ old('MedicineName', $pharmacy->MedicineName ?? '') }}" required>
 </div>
 
 <div class="mb-3">
     <label>Manufacturer</label>
-    <input type="text" name="manufacturer" class="form-control" value="{{ old('manufacturer', $pharmacy->manufacturer ?? '') }}" required>
+    <input type="text" name="Manufacturer" class="form-control" value="{{ old('Manufacturer', $pharmacy->Manufacturer ?? '') }}">
 </div>
 
 <div class="mb-3">
-    <label>Batch No</label>
-    <input type="text" name="batch_no" class="form-control" value="{{ old('batch_no', $pharmacy->batch_no ?? '') }}">
+    <label>Expiration Date</label>
+    <input type="date" name="ExpirationDate" class="form-control" value="{{ old('ExpirationDate', $pharmacy->ExpirationDate ?? '') }}" required>
 </div>
 
 <div class="mb-3">
     <label>Quantity</label>
-    <input type="number" name="quantity" class="form-control" value="{{ old('quantity', $pharmacy->quantity ?? '') }}" required>
-</div>
-
-<div class="mb-3">
-    <label>Unit</label>
-    <input type="text" name="unit" class="form-control" value="{{ old('unit', $pharmacy->unit ?? '') }}" required>
-</div>
-
-<div class="mb-3">
-    <label>Expiry Date</label>
-    <input type="date" name="expiry_date" class="form-control" value="{{ old('expiry_date', $pharmacy->expiry_date ?? '') }}" required>
+    <input type="number" name="Quantity" class="form-control" value="{{ old('Quantity', $pharmacy->Quantity ?? 0) }}" required>
 </div>
 
 <div class="mb-3">
     <label>Price</label>
-    <input type="text" name="price" class="form-control" value="{{ old('price', $pharmacy->price ?? '') }}" required>
+    <input type="number" name="Price" class="form-control" step="0.01" value="{{ old('Price', $pharmacy->Price ?? 0.00) }}" required>
 </div>

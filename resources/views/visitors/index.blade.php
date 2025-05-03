@@ -2,37 +2,31 @@
 
 @section('content')
 <div class="container">
-    <h2>Visitor Log</h2>
+    <h2>Visitors</h2>
     <a href="{{ route('visitors.create') }}" class="btn btn-primary mb-3">Add Visitor</a>
-
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Relation</th>
+                <th>Visitor Name</th>
                 <th>Patient</th>
+                <th>Visit Date</th>
                 <th>Visit Time</th>
-                <th>Purpose</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach($visitors as $visitor)
             <tr>
-                <td>{{ $visitor->visitor_name }}</td>
-                <td>{{ $visitor->relation_to_patient }}</td>
-                <td>{{ $visitor->patient->name }}</td>
-                <td>{{ $visitor->visit_time }}</td>
-                <td>{{ $visitor->purpose }}</td>
+                <td>{{ $visitor->VisitorName }}</td>
+                <td>{{ $visitor->patient->FirstName }} {{ $visitor->patient->LastName }}</td>
+                <td>{{ $visitor->VisitDate }}</td>
+                <td>{{ $visitor->VisitTime }}</td>
                 <td>
-                    <a href="{{ route('visitors.edit', $visitor->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('visitors.destroy', $visitor->id) }}" method="POST" style="display:inline;">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this visitor?')">Delete</button>
+                    <a href="{{ route('visitors.edit', $visitor->VisitorID) }}" class="btn btn-sm btn-warning">Edit</a>
+                    <form action="{{ route('visitors.destroy', $visitor->VisitorID) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
                     </form>
                 </td>
             </tr>

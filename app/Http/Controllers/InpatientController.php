@@ -4,56 +4,61 @@ namespace App\Http\Controllers;
 
 use App\Models\Inpatient;
 use App\Models\Patient;
-use App\Models\Doctor;
-use App\Models\Department;
-use App\Models\Location;
 use Illuminate\Http\Request;
 
 class InpatientController extends Controller
 {
     public function index()
     {
-        $inpatients = Inpatient::with(['patient', 'doctor', 'department', 'location'])->get();
+        $inpatients = Inpatient::with('patient')->get();
         return view('inpatients.index', compact('inpatients'));
     }
 
     public function create()
     {
         $patients = Patient::all();
-        $doctors = Doctor::all();
-        $departments = Department::all();
-        $locations = Location::all();
-
-        return view('inpatients.create', compact('patients', 'doctors', 'departments', 'locations'));
+        return view('inpatients.create', compact('patients'));
     }
 
     public function store(Request $request)
     {
-        Inpatient::create($request->all());
-        return redirect()->route('inpatients.index')->with('success', 'Inpatient record added!');
+        $validated = $request->validate([
+            'PatientID' => 'required|exists:patients,PatientID',
+            'AdmissionDate' => 'required|date',
+            'DischargeDate' => 'nullable|date|after_or_equal:AdmissionDate',
+            'Diagnosis' => 'required|string',
+            'Treatment' => 'required|string',
+            'Doctor' => 'required|string',
+        ]);
+
+        Inpatient::create($validated);
+        return redirect()->route('inpatients.index')->with('success', 'Inpatient added successfully.');
     }
 
-    public function edit($id)
+    public function edit(Inpatient $inpatient)
     {
-        $inpatient = Inpatient::findOrFail($id);
         $patients = Patient::all();
-        $doctors = Doctor::all();
-        $departments = Department::all();
-        $locations = Location::all();
-
-        return view('inpatients.edit', compact('inpatient', 'patients', 'doctors', 'departments', 'locations'));
+        return view('inpatients.edit', compact('inpatient', 'patients'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Inpatient $inpatient)
     {
-        $inpatient = Inpatient::findOrFail($id);
-        $inpatient->update($request->all());
-        return redirect()->route('inpatients.index')->with('success', 'Inpatient record updated!');
+        $validated = $request->validate([
+            'PatientID' => 'required|exists:patients,PatientID',
+            'AdmissionDate' => 'required|date',
+            'DischargeDate' => 'nullable|date|after_or_equal:AdmissionDate',
+            'Diagnosis' => 'required|string',
+            'Treatment' => 'required|string',
+            'Doctor' => 'required|string',
+        ]);
+
+        $inpatient->update($validated);
+        return redirect()->route('inpatients.index')->with('success', 'Inpatient updated successfully.');
     }
 
-    public function destroy($id)
+    public function destroy(Inpatient $inpatient)
     {
-        Inpatient::destroy($id);
-        return redirect()->route('inpatients.index')->with('success', 'Inpatient record deleted!');
+        $inpatient->delete();
+        return redirect()->route('inpatients.index')->with('success', 'Inpatient deleted successfully.');
     }
 }

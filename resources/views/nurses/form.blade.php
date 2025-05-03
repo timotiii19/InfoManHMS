@@ -1,39 +1,35 @@
-<form action="{{ $route }}" method="POST">
-    @csrf
-    @if ($method === 'PUT') @method('PUT') @endif
-
-    <div class="mb-3">
-        <label for="name" class="form-label">Nurse Name</label>
-        <input type="text" name="name" class="form-control" required value="{{ old('name', $nurse->name ?? '') }}">
-    </div>
-
-    <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" name="email" class="form-control" required value="{{ old('email', $nurse->email ?? '') }}">
-    </div>
-
-    <div class="mb-3">
-        <label for="department_id" class="form-label">Department</label>
-        <select name="department_id" class="form-select" required>
-            <option value="">Select Department</option>
-            @foreach ($departments as $department)
-                <option value="{{ $department->id }}"
-                    @if (old('department_id', $nurse->department_id ?? '') == $department->id) selected @endif>
-                    {{ $department->DepartmentName }}
-                </option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="mb-3">
-        <label for="availability" class="form-label">Availability</label>
-        <input type="text" name="availability" class="form-control" value="{{ old('availability', $nurse->availability ?? '') }}">
-    </div>
-
-    <div class="mb-3">
-        <label for="contactNumber" class="form-label">Contact Number</label>
-        <input type="text" name="contactNumber" class="form-control" value="{{ old('contactNumber', $nurse->contactNumber ?? '') }}">
-    </div>
-
-    <button type="submit" class="btn btn-success">Save</button>
-</form>
+<div class="mb-3">
+    <label>First Name</label>
+    <input type="text" name="FirstName" class="form-control" value="{{ old('FirstName', $nurse->FirstName ?? '') }}" required>
+</div>
+<div class="mb-3">
+    <label>Last Name</label>
+    <input type="text" name="LastName" class="form-control" value="{{ old('LastName', $nurse->LastName ?? '') }}" required>
+</div>
+<div class="mb-3">
+    <label>Gender</label>
+    <select name="Gender" class="form-control" required>
+        <option value="Male" @selected(old('Gender', $nurse->Gender ?? '') == 'Male')>Male</option>
+        <option value="Female" @selected(old('Gender', $nurse->Gender ?? '') == 'Female')>Female</option>
+    </select>
+</div>
+<div class="mb-3">
+    <label>Date of Birth</label>
+    <input type="date" name="DateOfBirth" class="form-control" value="{{ old('DateOfBirth', $nurse->DateOfBirth ?? '') }}" required>
+</div>
+<div class="mb-3">
+    <label>Phone</label>
+    <input type="text" name="Phone" class="form-control" value="{{ old('Phone', $nurse->Phone ?? '') }}" required>
+</div>
+<div class="mb-3">
+    <label>Email</label>
+    <input type="email" name="Email" class="form-control" value="{{ old('Email', $nurse->Email ?? '') }}" required>
+</div>
+<div class="mb-3">
+    <label>Address</label>
+    <input type="text" name="Address" class="form-control" value="{{ old('Address', $nurse->Address ?? '') }}" required>
+</div>
+<div class="mb-3">
+    <label>Department</label>
+    <input type="text" name="Department" class="form-control" value="{{ old('Department', $nurse->Department ?? '') }}" required>
+</div>

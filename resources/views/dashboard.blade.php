@@ -69,7 +69,7 @@
 
         <!-- Billing -->
         <div class="col">
-            <a href="{{ route('billing.index') }}" class="btn btn-outline-primary w-100">Billing</a>
+            <a href="{{ route('billings.index') }}" class="btn btn-outline-primary w-100">Billing</a>
         </div>
 
         <!-- Pharmacists -->

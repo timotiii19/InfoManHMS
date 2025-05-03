@@ -1,39 +1,29 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
-    <h2>Patient List</h2>
-
-    {{-- include our back button --}}
-    @include('partials.back-to-dashboard')
-
-    
+<div class="container">
+    <h2>Patients</h2>
     <a href="{{ route('patients.create') }}" class="btn btn-primary mb-3">Add Patient</a>
-
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Patient Type</th>
-                <th>Contact</th>
-                <th>Actions</th>
+                <th>Name</th><th>Gender</th><th>DOB</th><th>Phone</th><th>Location</th><th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach($patients as $patient)
             <tr>
-                <td>{{ $patient->Name }}</td>
-                <td>{{ $patient->PatientType }}</td>
-                <td>{{ $patient->ContactNumber }}</td>
+                <td>{{ $patient->FirstName }} {{ $patient->LastName }}</td>
+                <td>{{ $patient->Gender }}</td>
+                <td>{{ $patient->DOB }}</td>
+                <td>{{ $patient->Phone }}</td>
+                <td>{{ $patient->location?->RoomNumber ?? 'N/A' }}</td>
                 <td>
                     <a href="{{ route('patients.edit', $patient->PatientID) }}" class="btn btn-sm btn-warning">Edit</a>
                     <form action="{{ route('patients.destroy', $patient->PatientID) }}" method="POST" style="display:inline;">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this patient?')">Delete</button>
                     </form>
                 </td>
             </tr>

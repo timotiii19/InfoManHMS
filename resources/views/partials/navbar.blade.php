@@ -18,7 +18,7 @@
         <li class="nav-item"><a class="nav-link" href="{{ route('emergencies.index') }}">Emergencies</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('pharmacy.index') }}">Pharmacy</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('patient_medications.index') }}">Medications</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('billing.index') }}">Billing</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('billings.index') }}">Billing</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('visitors.index') }}">Visitors</a></li>
         </ul>
 

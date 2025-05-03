@@ -9,16 +9,19 @@ class Visitor extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'VisitorID';
+
     protected $fillable = [
-        'visitor_name',
-        'relation_to_patient',
-        'patient_id',
-        'visit_time',
-        'purpose',
+        'FirstName',
+        'LastName',
+        'PhoneNumber',
+        'VisitDate',
+        'VisitTime',
+        'PatientID',
     ];
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->belongsTo(Patient::class, 'PatientID');
     }
 }

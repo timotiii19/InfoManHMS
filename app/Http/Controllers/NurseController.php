@@ -3,84 +3,63 @@
 namespace App\Http\Controllers;
 
 use App\Models\Nurse;
-use App\Models\Department;
 use Illuminate\Http\Request;
 
 class NurseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $nurses = Nurse::with('department')->get(); // Eager load department relation
+        $nurses = Nurse::all();
         return view('nurses.index', compact('nurses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $departments = Department::all();
-        return view('nurses.create', compact('departments'));
+        return view('nurses.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|string|email|max:100|unique:nurses,email',
-            'department_id' => 'required|exists:departments,id',
-            'availability' => 'required|string|max:50',
-            'contact_number' => 'required|string|max:15',
+        $validated = $request->validate([
+            'FirstName' => 'required|string|max:255',
+            'LastName' => 'required|string|max:255',
+            'Gender' => 'required|string',
+            'DateOfBirth' => 'required|date',
+            'Phone' => 'required|string|max:20',
+            'Email' => 'required|email|unique:nurses,Email',
+            'Address' => 'required|string',
+            'Department' => 'required|string',
         ]);
 
-        Nurse::create($request->all());
-
-        return redirect()->route('nurses.index')->with('success', 'Nurse created successfully.');
+        Nurse::create($validated);
+        return redirect()->route('nurses.index')->with('success', 'Nurse added successfully.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function edit(Nurse $nurse)
     {
-        $nurse = Nurse::findOrFail($id);
-        $departments = Department::all();
-        return view('nurses.edit', compact('nurse', 'departments'));
+        return view('nurses.edit', compact('nurse'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, Nurse $nurse)
     {
-        $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|string|email|max:100|unique:nurses,email,' . $id,
-            'department_id' => 'required|exists:departments,id',
-            'availability' => 'required|string|max:50',
-            'contact_number' => 'required|string|max:15',
+        $validated = $request->validate([
+            'FirstName' => 'required|string|max:255',
+            'LastName' => 'required|string|max:255',
+            'Gender' => 'required|string',
+            'DateOfBirth' => 'required|date',
+            'Phone' => 'required|string|max:20',
+            'Email' => 'required|email|unique:nurses,Email,' . $nurse->NurseID . ',NurseID',
+            'Address' => 'required|string',
+            'Department' => 'required|string',
         ]);
 
-        $nurse = Nurse::findOrFail($id);
-        $nurse->update($request->all());
-
+        $nurse->update($validated);
         return redirect()->route('nurses.index')->with('success', 'Nurse updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+    public function destroy(Nurse $nurse)
     {
-        $nurse = Nurse::findOrFail($id);
         $nurse->delete();
-
         return redirect()->route('nurses.index')->with('success', 'Nurse deleted successfully.');
     }
 }

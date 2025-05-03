@@ -7,69 +7,51 @@ use Illuminate\Http\Request;
 
 class CashierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $cashiers = Cashier::all(); // Get all cashiers
+        $cashiers = Cashier::all();
         return view('cashiers.index', compact('cashiers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('cashiers.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:100',
+        $validated = $request->validate([
+            'FirstName' => 'required|string|max:255',
+            'LastName' => 'required|string|max:255',
+            'Email' => 'required|email|unique:cashiers',
+            'PhoneNumber' => 'required|string|max:20',
         ]);
 
-        Cashier::create($request->all());
-
-        return redirect()->route('cashiers.index')->with('success', 'Cashier added successfully.');
+        Cashier::create($validated);
+        return redirect()->route('cashiers.index')->with('success', 'Cashier created successfully.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function edit(Cashier $cashier)
     {
-        $cashier = Cashier::findOrFail($id);
         return view('cashiers.edit', compact('cashier'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, Cashier $cashier)
     {
-        $request->validate([
-            'name' => 'required|string|max:100',
+        $validated = $request->validate([
+            'FirstName' => 'required|string|max:255',
+            'LastName' => 'required|string|max:255',
+            'Email' => 'required|email|unique:cashiers,Email,' . $cashier->CashierID . ',CashierID',
+            'PhoneNumber' => 'required|string|max:20',
         ]);
 
-        $cashier = Cashier::findOrFail($id);
-        $cashier->update($request->all());
-
+        $cashier->update($validated);
         return redirect()->route('cashiers.index')->with('success', 'Cashier updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+    public function destroy(Cashier $cashier)
     {
-        $cashier = Cashier::findOrFail($id);
         $cashier->delete();
-
         return redirect()->route('cashiers.index')->with('success', 'Cashier deleted successfully.');
     }
 }

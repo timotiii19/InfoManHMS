@@ -22,16 +22,17 @@ class VisitorController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'visitor_name' => 'required',
-            'relation_to_patient' => 'required',
-            'patient_id' => 'required|exists:patients,id',
-            'visit_time' => 'required|date',
-            'purpose' => 'nullable|string',
+        $validated = $request->validate([
+            'FirstName' => 'required|string|max:255',
+            'LastName' => 'required|string|max:255',
+            'PhoneNumber' => 'required|string|max:20',
+            'VisitDate' => 'required|date',
+            'VisitTime' => 'required',
+            'PatientID' => 'required|exists:patients,PatientID',
         ]);
 
-        Visitor::create($request->all());
-        return redirect()->route('visitors.index')->with('success', 'Visitor recorded.');
+        Visitor::create($validated);
+        return redirect()->route('visitors.index')->with('success', 'Visitor added successfully.');
     }
 
     public function edit(Visitor $visitor)
@@ -42,21 +43,22 @@ class VisitorController extends Controller
 
     public function update(Request $request, Visitor $visitor)
     {
-        $request->validate([
-            'visitor_name' => 'required',
-            'relation_to_patient' => 'required',
-            'patient_id' => 'required|exists:patients,id',
-            'visit_time' => 'required|date',
-            'purpose' => 'nullable|string',
+        $validated = $request->validate([
+            'FirstName' => 'required|string|max:255',
+            'LastName' => 'required|string|max:255',
+            'PhoneNumber' => 'required|string|max:20',
+            'VisitDate' => 'required|date',
+            'VisitTime' => 'required',
+            'PatientID' => 'required|exists:patients,PatientID',
         ]);
 
-        $visitor->update($request->all());
-        return redirect()->route('visitors.index')->with('success', 'Visitor updated.');
+        $visitor->update($validated);
+        return redirect()->route('visitors.index')->with('success', 'Visitor updated successfully.');
     }
 
     public function destroy(Visitor $visitor)
     {
         $visitor->delete();
-        return redirect()->route('visitors.index')->with('success', 'Visitor deleted.');
+        return redirect()->route('visitors.index')->with('success', 'Visitor deleted successfully.');
     }
 }

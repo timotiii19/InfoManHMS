@@ -3,71 +3,65 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
-use App\Models\Patient;
 use App\Models\Doctor;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::with('patient', 'doctor')->get();
+        $appointments = Appointment::with(['doctor', 'patient'])->get();
         return view('appointments.index', compact('appointments'));
     }
 
     public function create()
     {
-        $patients = Patient::all();
         $doctors = Doctor::all();
-        return view('appointments.create', compact('patients', 'doctors'));
+        $patients = Patient::all();
+        return view('appointments.create', compact('doctors', 'patients'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'patient_id' => 'required|exists:patients,PatientID',
-            'doctor_id' => 'required|exists:doctors,DoctorID',
-            'appointment_date' => 'required|date',
-            'appointment_time' => 'required',
-            'status' => 'required|string',
-            'notes' => 'nullable|string',
+        $validated = $request->validate([
+            'PatientID' => 'required|exists:patients,PatientID',
+            'DoctorID' => 'required|exists:doctors,DoctorID',
+            'AppointmentDate' => 'required|date',
+            'AppointmentTime' => 'required',
+            'Status' => 'required|string|max:20',
         ]);
 
-        Appointment::create($request->all());
+        Appointment::create($validated);
 
-        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
+        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully!');
     }
 
-    public function edit($id)
+    public function edit(Appointment $appointment)
     {
-        $appointment = Appointment::findOrFail($id);
-        $patients = Patient::all();
         $doctors = Doctor::all();
-        return view('appointments.edit', compact('appointment', 'patients', 'doctors'));
+        $patients = Patient::all();
+        return view('appointments.edit', compact('appointment', 'doctors', 'patients'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Appointment $appointment)
     {
-        $request->validate([
-            'patient_id' => 'required|exists:patients,PatientID',
-            'doctor_id' => 'required|exists:doctors,DoctorID',
-            'appointment_date' => 'required|date',
-            'appointment_time' => 'required',
-            'status' => 'required|string',
-            'notes' => 'nullable|string',
+        $validated = $request->validate([
+            'PatientID' => 'required|exists:patients,PatientID',
+            'DoctorID' => 'required|exists:doctors,DoctorID',
+            'AppointmentDate' => 'required|date',
+            'AppointmentTime' => 'required',
+            'Status' => 'required|string|max:20',
         ]);
 
-        $appointment = Appointment::findOrFail($id);
-        $appointment->update($request->all());
+        $appointment->update($validated);
 
-        return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully.');
+        return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully!');
     }
 
-    public function destroy($id)
+    public function destroy(Appointment $appointment)
     {
-        $appointment = Appointment::findOrFail($id);
         $appointment->delete();
-
-        return redirect()->route('appointments.index')->with('success', 'Appointment deleted successfully.');
+        return redirect()->route('appointments.index')->with('success', 'Appointment deleted successfully!');
     }
 }

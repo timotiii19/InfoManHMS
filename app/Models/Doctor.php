@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Doctor extends Model
 {
-    protected $table = 'doctors';
+    use HasFactory;
+
     protected $primaryKey = 'DoctorID';
-    public $timestamps = false;
 
     protected $fillable = [
         'DoctorName',
@@ -21,12 +22,13 @@ class Doctor extends Model
         'RoomType',
     ];
 
-    // Relationships
-    public function department() {
+    public function department()
+    {
         return $this->belongsTo(Department::class, 'DepartmentID');
     }
 
-    public function location() {
+    public function location()
+    {
         return $this->belongsTo(Location::class, 'LocationID');
     }
 }

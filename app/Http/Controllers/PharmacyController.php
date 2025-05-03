@@ -9,8 +9,9 @@ class PharmacyController extends Controller
 {
     public function index()
     {
-        $medicines = Pharmacy::all();
-        return view('pharmacy.index', compact('medicines'));
+        $pharmacy = Pharmacy::all(); // Example of fetching data
+        return view('pharmacy.index', compact('pharmacy'));
+
     }
 
     public function create()
@@ -20,17 +21,15 @@ class PharmacyController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'medicine_name' => 'required',
-            'manufacturer' => 'required',
-            'batch_no' => 'nullable|string',
-            'quantity' => 'required|integer',
-            'unit' => 'required',
-            'expiry_date' => 'required|date',
-            'price' => 'required|numeric',
+        $validated = $request->validate([
+            'MedicineName' => 'required|string|max:100',
+            'Manufacturer' => 'nullable|string|max:100',
+            'ExpirationDate' => 'required|date',
+            'Quantity' => 'required|integer|min:0',
+            'Price' => 'required|numeric|min:0',
         ]);
 
-        Pharmacy::create($request->all());
+        Pharmacy::create($validated);
         return redirect()->route('pharmacy.index')->with('success', 'Medicine added.');
     }
 
@@ -41,24 +40,21 @@ class PharmacyController extends Controller
 
     public function update(Request $request, Pharmacy $pharmacy)
     {
-        $request->validate([
-            'medicine_name' => 'required',
-            'manufacturer' => 'required',
-            'batch_no' => 'nullable|string',
-            'quantity' => 'required|integer',
-            'unit' => 'required',
-            'expiry_date' => 'required|date',
-            'price' => 'required|numeric',
+        $validated = $request->validate([
+            'MedicineName' => 'required|string|max:100',
+            'Manufacturer' => 'nullable|string|max:100',
+            'ExpirationDate' => 'required|date',
+            'Quantity' => 'required|integer|min:0',
+            'Price' => 'required|numeric|min:0',
         ]);
 
-        $pharmacy->update($request->all());
+        $pharmacy->update($validated);
         return redirect()->route('pharmacy.index')->with('success', 'Medicine updated.');
     }
 
     public function destroy(Pharmacy $pharmacy)
     {
         $pharmacy->delete();
-        return redirect()->route('pharmacy.index')->with('success', 'Medicine removed.');
+        return redirect()->route('pharmacy.index')->with('success', 'Medicine deleted.');
     }
 }
-

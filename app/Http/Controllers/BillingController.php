@@ -3,86 +3,61 @@
 namespace App\Http\Controllers;
 
 use App\Models\Billing;
-use App\Models\Patient;
 use Illuminate\Http\Request;
 
 class BillingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $billings = Billing::with('patient')->get(); // Eager load the patient data
-        return view('billing.index', compact('billings'));
+        $billings = Billing::all();
+        return view('billings.index', compact('billings'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $patients = Patient::all();
-        return view('billing.create', compact('patients'));
+        return view('billings.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
-            'patient_id' => 'required|exists:patients,id',
-            'doctor_fee' => 'required|numeric',
-            'medicine_cost' => 'required|numeric',
-            'total_amount' => 'required|numeric',
-            'payment_date' => 'required|date',
-            'receipt' => 'required|string|max:255',
+            'patient_id' => 'required|integer',
+            'amount' => 'required|numeric',
+            'billing_date' => 'required|date',
         ]);
 
         Billing::create($request->all());
 
-        return redirect()->route('billing.index')->with('success', 'Billing record created successfully.');
+        return redirect()->route('billings.index')->with('success', 'Billing added successfully.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function show(Billing $billing)
     {
-        $billing = Billing::findOrFail($id);
-        $patients = Patient::all();
-        return view('billing.edit', compact('billing', 'patients'));
+        return view('billings.show', compact('billing'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+    public function edit(Billing $billing)
+    {
+        return view('billings.edit', compact('billing'));
+    }
+
+    public function update(Request $request, Billing $billing)
     {
         $request->validate([
-            'patient_id' => 'required|exists:patients,id',
-            'doctor_fee' => 'required|numeric',
-            'medicine_cost' => 'required|numeric',
-            'total_amount' => 'required|numeric',
-            'payment_date' => 'required|date',
-            'receipt' => 'required|string|max:255',
+            'patient_id' => 'required|integer',
+            'amount' => 'required|numeric',
+            'billing_date' => 'required|date',
         ]);
 
-        $billing = Billing::findOrFail($id);
         $billing->update($request->all());
 
-        return redirect()->route('billing.index')->with('success', 'Billing record updated successfully.');
+        return redirect()->route('billings.index')->with('success', 'Billing updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+    public function destroy(Billing $billing)
     {
-        $billing = Billing::findOrFail($id);
         $billing->delete();
 
-        return redirect()->route('billing.index')->with('success', 'Billing record deleted successfully.');
+        return redirect()->route('billings.index')->with('success', 'Billing deleted.');
     }
 }

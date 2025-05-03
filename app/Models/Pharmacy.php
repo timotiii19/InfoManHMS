@@ -9,13 +9,11 @@ class Pharmacy extends Model
 {
     use HasFactory;
 
+    protected $table = 'pharmacy'; // <-- specify table name manually
+
+    protected $primaryKey = 'PharmacyID';
+
     protected $fillable = [
-        'medicine_name',
-        'manufacturer',
-        'batch_no',
-        'quantity',
-        'unit',
-        'expiry_date',
-        'price',
+        'PharmacyName', 'Phone', 'Address',
     ];
 }

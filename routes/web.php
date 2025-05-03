@@ -18,7 +18,6 @@ use App\Http\Controllers\CashierController;
 use App\Http\Controllers\VisitorController;
 
 
-
 // Redirect root to dashboard
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -27,6 +26,17 @@ Route::get('/', function () {
 // OR serve the view directly at root (and still keep the named dashboard)
 Route::view('/', 'dashboard')->name('dashboard');
 
+Route::get('appointments/report/daily', [AppointmentController::class, 'dailyReport'])->name('appointments.report.daily');
+
+Route::get('patients/{id}/report', [PatientController::class, 'medicalHistoryReport'])->name('patients.report');
+
+Route::get('doctors/{id}/schedule', [DoctorController::class, 'dailySchedule'])->name('doctors.schedule');
+
+Route::get('locations/occupancy-report', [LocationController::class, 'occupancyReport'])->name('locations.occupancy');
+
+Route::get('/billings/create', [BillingController::class, 'create'])->name('billings.create');
+
+Route::get('lab-procedures/results-report', [LabProcedureController::class, 'resultsReport'])->name('lab-procedures.results');
 
 // Routes for each module
 Route::resource('appointments', AppointmentController::class);
@@ -41,7 +51,7 @@ Route::resource('labprocedures', LabProcedureController::class);
 Route::resource('emergencies', EmergencyController::class);
 Route::resource('pharmacy', PharmacyController::class);
 Route::resource('patient_medications', PatientMedicationController::class);
-Route::resource('billing', BillingController::class);
+Route::resource('billings', BillingController::class);
 Route::resource('pharmacists', PharmacistController::class);
 Route::resource('cashiers', CashierController::class);
 Route::resource('visitors', VisitorController::class);

@@ -2,29 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Patient extends Model
 {
-    protected $table = 'patients';
-        protected $primaryKey = 'PatientID';
-        public $timestamps = false; // if your table doesn’t have created_at/updated_at
+    use HasFactory;
+
+    protected $primaryKey = 'PatientID';
 
     protected $fillable = [
-        'Name',
-        'DateOfBirth',
-        'Sex',
-        'Address',
-        'ContactNumber',
-        'PatientType',
+        'FirstName', 'LastName', 'Gender', 'DOB', 'Phone', 'Email', 'Address', 'LocationID',
     ];
 
-    // Relationships (if needed)
-    public function inpatients() {
-        return $this->hasMany(Inpatient::class, 'PatientID');
-    }
-
-    public function outpatients() {
-        return $this->hasMany(Outpatient::class, 'PatientID');
+    public function location()
+    {
+        return $this->belongsTo(Location::class, 'LocationID');
     }
 }

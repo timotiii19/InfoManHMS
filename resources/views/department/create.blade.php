@@ -1,16 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-5">
-    <h3>Add New Department</h3>
-
-    {{-- include our back button --}}
-    @include('partials.back-to-dashboard')
-    
-    @include('departments.form', [
-        'route' => route('departments.store'),
-        'method' => 'POST',
-        'department' => null
-    ])
+<div class="container">
+    <h2>Add Department</h2>
+    <form method="POST" action="{{ route('departments.store') }}">
+        @csrf
+        @include('departments.form')
+        <button type="submit" class="btn btn-success">Save</button>
+    </form>
 </div>
 @endsection

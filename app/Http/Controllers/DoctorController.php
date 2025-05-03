@@ -1,46 +1,73 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Department;
+
 use App\Models\Doctor;
+use App\Models\Department;
+use App\Models\Location;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
     public function index()
     {
-        $doctors = Doctor::all();
+        $doctors = Doctor::with(['department', 'location'])->get();
         return view('doctors.index', compact('doctors'));
     }
 
     public function create()
     {
         $departments = Department::all();
-        return view('doctors.create', compact('departments'));
+        $locations = Location::all();
+        return view('doctors.create', compact('departments', 'locations'));
     }
 
     public function store(Request $request)
     {
-        Doctor::create($request->all());
+        $validated = $request->validate([
+            'DoctorName' => 'required|string|max:100',
+            'Email' => 'required|email|unique:doctors',
+            'Availability' => 'required|string|max:20',
+            'ContactNumber' => 'required|string|max:15',
+            'DoctorType' => 'required|in:Regular,Visiting',
+            'DepartmentID' => 'required|exists:departments,DepartmentID',
+            'LocationID' => 'required|exists:locations,LocationID',
+            'RoomType' => 'required|in:Ward,Private,Semi-Private',
+        ]);
+
+        Doctor::create($validated);
+
         return redirect()->route('doctors.index')->with('success', 'Doctor added successfully!');
     }
 
-    public function edit($id)
+    public function edit(Doctor $doctor)
     {
-        $doctor = Doctor::findOrFail($id);
-        return view('doctors.edit', compact('doctor'));
+        $departments = Department::all();
+        $locations = Location::all();
+        return view('doctors.edit', compact('doctor', 'departments', 'locations'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Doctor $doctor)
     {
-        $doctor = Doctor::findOrFail($id);
-        $doctor->update($request->all());
+        $validated = $request->validate([
+            'DoctorName' => 'required|string|max:100',
+            'Email' => 'required|email|unique:doctors,Email,' . $doctor->DoctorID . ',DoctorID',
+            'Availability' => 'required|string|max:20',
+            'ContactNumber' => 'required|string|max:15',
+            'DoctorType' => 'required|in:Regular,Visiting',
+            'DepartmentID' => 'required|exists:departments,DepartmentID',
+            'LocationID' => 'required|exists:locations,LocationID',
+            'RoomType' => 'required|in:Ward,Private,Semi-Private',
+        ]);
+
+        $doctor->update($validated);
+
         return redirect()->route('doctors.index')->with('success', 'Doctor updated successfully!');
     }
 
-    public function destroy($id)
+    public function destroy(Doctor $doctor)
     {
-        Doctor::destroy($id);
+        $doctor->delete();
         return redirect()->route('doctors.index')->with('success', 'Doctor deleted successfully!');
     }
 }

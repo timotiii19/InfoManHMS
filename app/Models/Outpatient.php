@@ -2,32 +2,25 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Outpatient extends Model
 {
-    protected $table = 'outpatients';
+    use HasFactory;
+
     protected $primaryKey = 'OutpatientID';
-    public $timestamps = false;
 
     protected $fillable = [
         'PatientID',
-        'DoctorID',
-        'DepartmentID',
         'VisitDate',
-        'Reason',
+        'Diagnosis',
+        'Treatment',
+        'Doctor',
     ];
 
-    // Relationships
-    public function patient() {
-        return $this->belongsTo(Patient::class, 'PatientID');
-    }
-
-    public function doctor() {
-        return $this->belongsTo(Doctor::class, 'DoctorID');
-    }
-
-    public function department() {
-        return $this->belongsTo(Department::class, 'DepartmentID');
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class, 'PatientID', 'PatientID');
     }
 }

@@ -1,14 +1,26 @@
 <div class="mb-3">
     <label>Patient</label>
-    <select name="patient_id" class="form-control" required>
+    <select name="PatientID" class="form-control" required>
         @foreach($patients as $patient)
-            <option value="{{ $patient->id }}" {{ (old('patient_id', $outpatient->patient_id ?? '') == $patient->id) ? 'selected' : '' }}>
-                {{ $patient->name }}
+            <option value="{{ $patient->PatientID }}" @selected(old('PatientID', $outpatient->PatientID ?? '') == $patient->PatientID)>
+                {{ $patient->FirstName }} {{ $patient->LastName }}
             </option>
         @endforeach
     </select>
 </div>
 <div class="mb-3">
     <label>Visit Date</label>
-    <input type="date" name="visit_date" class="form-control" value="{{ old('visit_date', $outpatient->visit_date ?? '') }}" required>
+    <input type="date" name="VisitDate" class="form-control" value="{{ old('VisitDate', $outpatient->VisitDate ?? '') }}" required>
+</div>
+<div class="mb-3">
+    <label>Diagnosis</label>
+    <input type="text" name="Diagnosis" class="form-control" value="{{ old('Diagnosis', $outpatient->Diagnosis ?? '') }}" required>
+</div>
+<div class="mb-3">
+    <label>Treatment</label>
+    <input type="text" name="Treatment" class="form-control" value="{{ old('Treatment', $outpatient->Treatment ?? '') }}" required>
+</div>
+<div class="mb-3">
+    <label>Doctor</label>
+    <input type="text" name="Doctor" class="form-control" value="{{ old('Doctor', $outpatient->Doctor ?? '') }}" required>
 </div>
