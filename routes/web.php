@@ -1,58 +1,20 @@
 <?php
 
-use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\PatientController;
-use App\Http\Controllers\DoctorController;
-use App\Http\Controllers\NurseController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\InpatientController;
-use App\Http\Controllers\OutpatientController;
-use App\Http\Controllers\LabProcedureController;
-use App\Http\Controllers\EmergencyController;
-use App\Http\Controllers\PharmacyController;
-use App\Http\Controllers\PatientMedicationController;
-use App\Http\Controllers\BillingController;
-use App\Http\Controllers\PharmacistController;
-use App\Http\Controllers\CashierController;
-use App\Http\Controllers\VisitorController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 
-
-// Redirect root to dashboard
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return view('welcome');
 });
 
-// OR serve the view directly at root (and still keep the named dashboard)
-Route::view('/', 'dashboard')->name('dashboard');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('appointments/report/daily', [AppointmentController::class, 'dailyReport'])->name('appointments.report.daily');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-Route::get('patients/{id}/report', [PatientController::class, 'medicalHistoryReport'])->name('patients.report');
-
-Route::get('doctors/{id}/schedule', [DoctorController::class, 'dailySchedule'])->name('doctors.schedule');
-
-Route::get('locations/occupancy-report', [LocationController::class, 'occupancyReport'])->name('locations.occupancy');
-
-Route::get('/billings/create', [BillingController::class, 'create'])->name('billings.create');
-
-Route::get('lab-procedures/results-report', [LabProcedureController::class, 'resultsReport'])->name('lab-procedures.results');
-
-// Routes for each module
-Route::resource('appointments', AppointmentController::class);
-Route::resource('patients', PatientController::class);
-Route::resource('doctors', DoctorController::class);
-Route::resource('nurses', NurseController::class);
-Route::resource('departments', DepartmentController::class);
-Route::resource('locations', LocationController::class);
-Route::resource('inpatients', InpatientController::class);
-Route::resource('outpatients', OutpatientController::class);
-Route::resource('labprocedures', LabProcedureController::class);
-Route::resource('emergencies', EmergencyController::class);
-Route::resource('pharmacy', PharmacyController::class);
-Route::resource('patient_medications', PatientMedicationController::class);
-Route::resource('billings', BillingController::class);
-Route::resource('pharmacists', PharmacistController::class);
-Route::resource('cashiers', CashierController::class);
-Route::resource('visitors', VisitorController::class);
-
+require __DIR__.'/auth.php';
