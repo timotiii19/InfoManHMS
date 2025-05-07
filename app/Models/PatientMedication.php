@@ -29,3 +29,4 @@ class PatientMedication extends Model
         return $this->belongsTo(Pharmacy::class, 'PharmacyID');
     }
 }
+w

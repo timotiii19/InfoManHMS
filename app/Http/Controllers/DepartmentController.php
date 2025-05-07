@@ -9,13 +9,13 @@ class DepartmentController extends Controller
 {
     public function index()
     {
-        $departments = Department::all();
-        return view('departments.index', compact('departments'));
+        $department = Department::all();
+        return view('department.index', compact('department'));
     }
 
     public function create()
     {
-        return view('departments.create');
+        return view('department.create');
     }
 
     public function store(Request $request)
@@ -26,12 +26,12 @@ class DepartmentController extends Controller
         ]);
 
         Department::create($validated);
-        return redirect()->route('departments.index')->with('success', 'Department added successfully!');
+        return redirect()->route('department.index')->with('success', 'Department added successfully!');
     }
 
     public function edit(Department $department)
     {
-        return view('departments.edit', compact('department'));
+        return view('department.edit', compact('department'));
     }
 
     public function update(Request $request, Department $department)
@@ -42,12 +42,12 @@ class DepartmentController extends Controller
         ]);
 
         $department->update($validated);
-        return redirect()->route('departments.index')->with('success', 'Department updated successfully!');
+        return redirect()->route('department.index')->with('success', 'Department updated successfully!');
     }
 
     public function destroy(Department $department)
     {
         $department->delete();
-        return redirect()->route('departments.index')->with('success', 'Department deleted successfully!');
+        return redirect()->route('department.index')->with('success', 'Department deleted successfully!');
     }
 }
