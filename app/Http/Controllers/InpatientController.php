@@ -17,14 +17,16 @@ class InpatientController extends Controller
         return view('inpatients.index', compact('inpatients'));
     }
 
-    public function create()
-    {
-        $patients = Patient::all();
-        $doctors = Doctor::all();
-        $departments = Department::all();
-        $locations = Location::all();
-        return view('inpatients.create', compact('patients', 'doctors', 'departments', 'locations'));
-    }
+        public function create()
+        {
+            // Pass the list of patients to the view
+            $patients = Patient::all();
+            $doctors = Doctor::all();
+            $departments = Department::all();
+            $locations = Location::all();
+    
+            return view('inpatients.create', compact('patients', 'doctors', 'departments', 'locations'));
+        }
 
     public function store(Request $request)
     {

@@ -1,3 +1,5 @@
+<!-- resources/views/outpatients/index.blade.php -->
+
 @extends('layouts.app')
 
 @section('content')
@@ -18,8 +20,8 @@
         <tbody>
             @foreach($outpatients as $outpatient)
             <tr>
-                <td>{{ $outpatient->patient->FullName }}</td>
-                <td>{{ $outpatient->doctor->FullName }}</td>
+                <td>{{ $outpatient->patient->FullName }}</td>  <!-- Display Patient Full Name -->
+                <td>{{ $outpatient->doctor->FullName }}</td>   <!-- Display Doctor Full Name -->
                 <td>{{ $outpatient->department->DepartmentName }}</td>
                 <td>{{ $outpatient->VisitDate }}</td>
                 <td>{{ $outpatient->Reason }}</td>

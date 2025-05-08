@@ -10,6 +10,7 @@ class Billing extends Model
     use HasFactory;
 
     protected $table = 'patient_billing';
+    protected $primaryKey = 'BillingID'; // Add this line
 
     protected $fillable = [
         'PatientID',

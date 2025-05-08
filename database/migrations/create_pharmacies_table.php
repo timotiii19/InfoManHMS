@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id('MedicineID');
             $table->unsignedBigInteger('PharmacistID');
             $table->text('Description');
-            $table->integer('StockQuantity');
+            $table->integer('StockQuantity')->check('StockQuantity >= 0');
             $table->decimal('Price', 20, 5)->check('Price > 0');
             $table->timestamps();
 

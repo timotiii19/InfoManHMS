@@ -2,7 +2,7 @@
     <label for="PatientID">Patient</label>
     <select name="PatientID" id="PatientID" class="form-control" required>
         @foreach($patients as $patient)
-            <option value="{{ $patient->PatientID }}" @if(old('PatientID', $outpatient->PatientID ?? '') == $patient->PatientID) selected @endif>
+            <option value="{{ $patient->id }}" @if(old('PatientID', $outpatient->PatientID ?? '') == $patient->id) selected @endif>
                 {{ $patient->FullName }}
             </option>
         @endforeach
@@ -13,7 +13,7 @@
     <label for="DoctorID">Doctor</label>
     <select name="DoctorID" id="DoctorID" class="form-control" required>
         @foreach($doctors as $doctor)
-            <option value="{{ $doctor->DoctorID }}" @if(old('DoctorID', $outpatient->DoctorID ?? '') == $doctor->DoctorID) selected @endif>
+            <option value="{{ $doctor->id }}" @if(old('DoctorID', $outpatient->DoctorID ?? '') == $doctor->id) selected @endif>
                 {{ $doctor->FullName }}
             </option>
         @endforeach
@@ -24,7 +24,7 @@
     <label for="DepartmentID">Department</label>
     <select name="DepartmentID" id="DepartmentID" class="form-control" required>
         @foreach($departments as $department)
-            <option value="{{ $department->DepartmentID }}" @if(old('DepartmentID', $outpatient->DepartmentID ?? '') == $department->DepartmentID) selected @endif>
+            <option value="{{ $department->id }}" @if(old('DepartmentID', $outpatient->DepartmentID ?? '') == $department->id) selected @endif>
                 {{ $department->DepartmentName }}
             </option>
         @endforeach

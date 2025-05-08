@@ -7,23 +7,22 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('outpatients', function (Blueprint $table) {
-            $table->id('OutpatientID');
+        Schema::create('appointments', function (Blueprint $table) {
+            $table->id('AppointmentID');
             $table->unsignedBigInteger('PatientID');
             $table->unsignedBigInteger('DoctorID');
-            $table->unsignedBigInteger('DepartmentID');
-            $table->dateTime('VisitDate');
-            $table->text('Reason')->nullable();
+            $table->dateTime('AppointmentDate');
+            $table->text('Reason');
             $table->timestamps();
 
+            // Foreign key constraints
             $table->foreign('PatientID')->references('PatientID')->on('patients')->onDelete('cascade');
             $table->foreign('DoctorID')->references('DoctorID')->on('doctors')->onDelete('cascade');
-            $table->foreign('DepartmentID')->references('DepartmentID')->on('departments')->onDelete('cascade');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('outpatients');
+        Schema::dropIfExists('appointments');
     }
 };

@@ -5,6 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
 class Patient extends Model
 {
     use HasFactory;
@@ -12,8 +17,16 @@ class Patient extends Model
     protected $primaryKey = 'PatientID';
 
     protected $fillable = [
-        'Name', 'DateOfBirth', 'Sex', 'Address', 'ContactNumber', 'PatientType'
+        'FullName', 'DateOfBirth', 'Sex', 'Address', 'ContactNumber', 'PatientType', 'LocationID'
     ];
+
+    /**
+     * A patient belongs to a location.
+     */
+    public function location()
+    {
+        return $this->belongsTo(Location::class, 'LocationID');
+    }
 
     // Optional: Add relationships, for example, for a patient having many appointments or medications
     public function appointments()

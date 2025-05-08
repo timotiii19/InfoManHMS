@@ -9,34 +9,26 @@ class Appointment extends Model
 {
     use HasFactory;
 
-    // The table associated with the model
-    protected $table = 'outpatients';
+    // Specify the primary key field (if not using default 'id')
+    protected $primaryKey = 'AppointmentID';
 
-    // The primary key of the table
-    protected $primaryKey = 'OutpatientID';
-
-    // The attributes that are mass assignable
+    // Fillable attributes for mass assignment
     protected $fillable = [
-        'PatientID',
-        'DoctorID',
-        'DepartmentID',
-        'VisitDate',
-        'Reason',
+        'PatientID', 
+        'DoctorID', 
+        'AppointmentDate', 
+        'Reason'
     ];
 
-    // Define relationships with other models
+    // Define the relationship to the Patient model
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'PatientID');
     }
 
+    // Define the relationship to the Doctor model
     public function doctor()
     {
         return $this->belongsTo(Doctor::class, 'DoctorID');
-    }
-
-    public function department()
-    {
-        return $this->belongsTo(Department::class, 'DepartmentID');
     }
 }

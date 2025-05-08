@@ -10,8 +10,9 @@ class Inpatient extends Model
     use HasFactory;
 
     protected $primaryKey = 'InpatientID';
+
     protected $fillable = [
-        'PatientID', 'DoctorID', 'DepartmentID', 'LocationID', 'Availability', 'MedicalRecord',
+        'PatientID', 'DoctorID', 'DepartmentID', 'LocationID', 'Availability', 'MedicalRecord', 'AdmissionDate', 'DischargeDate', 'Diagnosis',
     ];
 
     public function patient()
@@ -31,6 +32,6 @@ class Inpatient extends Model
 
     public function location()
     {
-        return $this->belongsTo(Location::class, 'LocationID');
+        return $this->belongsTo(Location::class, 'LocationID'); // New relationship for Location
     }
 }

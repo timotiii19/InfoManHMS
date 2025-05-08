@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('Dosage', 50);
             $table->string('Frequency', 50);
             $table->date('StartDate');
-            $table->date('EndDate');
+            $table->date('EndDate')->nullable();
             $table->timestamps();
 
             $table->foreign('PatientID')->references('PatientID')->on('patients')->onDelete('cascade');

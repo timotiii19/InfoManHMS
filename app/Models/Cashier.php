@@ -12,9 +12,6 @@ class Cashier extends Model
     protected $primaryKey = 'CashierID';
 
     protected $fillable = [
-        'FirstName',
-        'LastName',
-        'Email',
-        'PhoneNumber',
+        'Name',
     ];
 }

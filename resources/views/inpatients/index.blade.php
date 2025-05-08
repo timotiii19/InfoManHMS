@@ -1,3 +1,5 @@
+<!-- resources/views/inpatients/index.blade.php -->
+
 @extends('layouts.app')
 
 @section('content')
@@ -18,8 +20,8 @@
         <tbody>
             @foreach($inpatients as $inpatient)
             <tr>
-                <td>{{ $inpatient->patient->FullName }}</td>
-                <td>{{ $inpatient->doctor->FullName }}</td>
+                <td>{{ $inpatient->patient->FullName }}</td>  <!-- Display Patient Full Name -->
+                <td>{{ $inpatient->doctor->FullName }}</td>   <!-- Display Doctor Full Name -->
                 <td>{{ $inpatient->department->DepartmentName }}</td>
                 <td>{{ $inpatient->location->LocationName }}</td>
                 <td>{{ $inpatient->Availability }}</td>

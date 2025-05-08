@@ -46,6 +46,8 @@ Route::get('/dashboard', function () {
 });
 
 Route::get('/doctors/{doctor}/schedule', [DoctorController::class, 'schedule'])->name('doctors.schedule');
+Route::get('patients/admit', [PatientController::class, 'admit'])->name('patients.admit');
+Route::post('patients/admit', [PatientController::class, 'store'])->name('patients.store');
 
 // Resource routes for each table (folder)
 Route::resource('appointments', AppointmentController::class);

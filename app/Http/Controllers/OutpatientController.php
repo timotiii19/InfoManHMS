@@ -42,11 +42,13 @@ class OutpatientController extends Controller
     public function edit($id)
     {
         $outpatient = Outpatient::findOrFail($id);
-        $patients = Patient::all();
-        $doctors = Doctor::all();
-        $departments = Department::all();
+        $patients = Patient::all(); // Get all patients
+        $doctors = Doctor::all();   // Get all doctors
+        $departments = Department::all(); // Get all departments
+
         return view('outpatients.edit', compact('outpatient', 'patients', 'doctors', 'departments'));
     }
+
 
     public function update(Request $request, $id)
     {

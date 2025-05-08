@@ -13,15 +13,21 @@ class CreatePatientsTable extends Migration
             $table->string('Name', 100);
             $table->date('DateOfBirth');
             $table->enum('Sex', ['Male', 'Female']);
-            $table->string('Address', 255);
-            $table->string('ContactNumber', 15);
+            $table->string('Address', 255)->nullable();
+            $table->string('ContactNumber', 15)->nullable();
             $table->enum('PatientType', ['Outpatient', 'Inpatient']);
             $table->timestamps();
+            $table->unsignedBigInteger('LocationID')->nullable();  // Patient location ID
+            
+            $table->foreign('LocationID')->references('LocationID')->on('locations')->onDelete('set null');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('patients');
+        Schema::table('patients', function (Blueprint $table) {
+            $table->dropForeign(['LocationID']);
+            $table->dropColumn('LocationID');
+        });
     }
 }
