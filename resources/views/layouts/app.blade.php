@@ -6,15 +6,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #f8f9fa; /* light gray background */
         }
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
             height: 100vh;
-            width: 220px;
-            background-color: #343a40;
+            width: 240px;
+            background-color: #ffffff; /* white sidebar */
+            border-right: 1px solid #dee2e6;
             padding-top: 60px;
             transition: width 0.3s;
             overflow-x: hidden;
@@ -24,16 +25,23 @@
             width: 0;
         }
         .sidebar a {
-            color: white;
+            color: #0d6efd; /* blue links */
             padding: 12px 20px;
             display: block;
             text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s, padding-left 0.2s, color 0.2s;
+        }
+        .sidebar a:hover {
+            background-color: #e7f1ff;
+            padding-left: 30px;
+            color: #084298; /* darker blue on hover */
         }
         .sidebar.collapsed a {
             display: none;
         }
         .main-content {
-            margin-left: 220px;
+            margin-left: 240px;
             transition: margin-left 0.3s;
             padding: 20px;
         }
@@ -41,18 +49,23 @@
             margin-left: 0;
         }
         .dashboard-card {
-            border-radius: 15px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            transition: 0.3s;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+            background-color: #ffffff;
+            border-left: 4px solid #0d6efd;
         }
         .dashboard-card:hover {
             transform: translateY(-3px);
+        }
+        .dashboard-card h5 {
+            color: #0d6efd;
         }
         .toggle-btn, .back-btn {
             position: fixed;
             top: 10px;
             z-index: 1001;
-            background-color: #343a40;
+            background-color: #0d6efd;
             border: none;
             color: white;
             padding: 8px 12px;
@@ -64,16 +77,36 @@
         }
         .back-btn {
             left: 70px;
-            display: none; /* Hide by default */
-            padding: 10px 5px;  /* Reduced padding */
-            font-size: 14px;  /* Smaller font size */
-            border-radius: 3px; /* Slightly smaller border-radius */
-            height: 30px;  /* Adjust the height */
+            display: none;
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 4px;
         }
-
-        /* Hide section content by default */
         .section-content {
             display: none;
+        }
+        .section-toggle::after {
+            content: " ▸";
+            float: right;
+        }
+        .section-content.show {
+            display: block;
+        }
+        .section-toggle.active::after {
+            content: " ▾";
+        }
+        table {
+            background-color: #ffffff;
+        }
+        thead {
+            background-color: #0d6efd;
+            color: white;
+        }
+        tbody tr:hover {
+            background-color: #e7f1ff;
+        }
+        .table-bordered th, .table-bordered td {
+            border: 1px solid #dee2e6;
         }
     </style>
 </head>
@@ -113,11 +146,10 @@
             {{ $section }}
         </a>
         <div class="ps-3 section-content" id="collapse{{ Str::slug($section) }}">
-                @foreach($actions as $action => $url)
-                    <a href="{{ $url }}" class="small d-block">{{ $action }}</a>
-                @endforeach
-            </div>
-
+            @foreach($actions as $action => $url)
+                <a href="{{ $url }}" class="small d-block">{{ $action }}</a>
+            @endforeach
+        </div>
     @endforeach
 </div>
 
@@ -127,40 +159,30 @@
 </div>
 
 <script>
-    // Sidebar toggle functionality
     const toggleBtn = document.getElementById('toggleBtn');
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.getElementById('mainContent');
+    const backBtn = document.getElementById('backBtn');
 
     toggleBtn.addEventListener('click', () => {
         sidebar.classList.toggle('collapsed');
         mainContent.classList.toggle('expanded');
     });
 
-    // Toggle visibility of section content on click
     document.querySelectorAll('.section-toggle').forEach(function (toggleButton) {
         toggleButton.addEventListener('click', function (event) {
             var sectionContent = toggleButton.nextElementSibling;
-
-            // If section is hidden, show it; if visible, hide it
-            if (sectionContent.style.display === "none" || sectionContent.style.display === "") {
-                sectionContent.style.display = "block";  // Show the section content
-            } else {
-                sectionContent.style.display = "none";  // Hide the section content
-            }
-
-            // Prevent page scrolling when clicking sidebar links
+            toggleButton.classList.toggle('active');
+            sectionContent.classList.toggle('show');
             event.preventDefault();
         });
     });
 
-    // Hide the "Back to Dashboard" button on the dashboard page
-    window.addEventListener('DOMContentLoaded', (event) => {
-        const backBtn = document.getElementById('backBtn');
+    window.addEventListener('DOMContentLoaded', () => {
         if (window.location.pathname === '/dashboard') {
-            backBtn.style.display = 'none';  // Hide button on /dashboard
+            backBtn.style.display = 'none';
         } else {
-            backBtn.style.display = 'inline-block';  // Show button on other pages
+            backBtn.style.display = 'inline-block';
         }
     });
 </script>
