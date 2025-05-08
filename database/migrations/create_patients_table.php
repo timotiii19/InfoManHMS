@@ -17,7 +17,7 @@ class CreatePatientsTable extends Migration
             $table->string('ContactNumber', 15)->nullable();
             $table->enum('PatientType', ['Outpatient', 'Inpatient']);
             $table->timestamps();
-            $table->unsignedBigInteger('LocationID')->nullable();  // Patient location ID
+            $table->unsignedBigInteger('LocationID')->nullable(); // Patient location ID
             
             $table->foreign('LocationID')->references('LocationID')->on('locations')->onDelete('set null');
         });

@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+class CreateOutpatientsTable extends Migration
+{
     public function up(): void
     {
         Schema::create('outpatients', function (Blueprint $table) {
@@ -20,11 +21,10 @@ return new class extends Migration {
             $table->foreign('DoctorID')->references('DoctorID')->on('doctors')->onDelete('cascade');
             $table->foreign('DepartmentID')->references('DepartmentID')->on('departments')->onDelete('cascade');
         });
-        
     }
 
     public function down(): void
     {
         Schema::dropIfExists('outpatients');
     }
-};
+}

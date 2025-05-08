@@ -35,23 +35,29 @@
     <div class="row g-4">
         @php
             $cards = [
-                'Patients', 'Inpatients', 'Outpatients',
-                'Hospital Employees', 'Pharmaceuticals', 'Visitors',
-                'Lab Procedures', 'Appointments', 'Departments'
+                'Patients' => $patientsCount,
+                'Inpatients' => $inpatientsCount,
+                'Outpatients' => $outpatientsCount,
+                'Hospital Employees' => $employeesCount,
+                'Pharmaceuticals' => $pharmacyCount,
+                'Visitors' => $visitorsCount,
+                'Lab Procedures' => $labProceduresCount,
+                'Appointments' => $appointmentsCount,
+                'Departments' => $departmentsCount,
             ];
         @endphp
 
-        @foreach($cards as $card)
+        @foreach($cards as $card => $count)
             <div class="col-md-4">
                 <div class="card dashboard-card p-3">
                     <h5>{{ $card }}</h5>
-                    <p class="card-text">0</p>
+                    <p class="card-text">{{ $count }}</p>
                 </div>
             </div>
         @endforeach
     </div>
 
-    <!-- Table Example -->
+    <!-- Employee Table -->
     <div class="mt-5">
         <h4 class="text-primary">Hospital Employees</h4>
         <div class="table-responsive">
@@ -66,20 +72,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td><img src="https://via.placeholder.com/40" class="rounded-circle"></td>
-                    <td>Jessica Spencer</td>
-                    <td>jessica@mail.com</td>
-                    <td>Accounting</td>
-                    <td><a href="#" class="btn btn-sm btn-primary">View</a></td>
-                </tr>
-                <tr>
-                    <td><img src="https://via.placeholder.com/40" class="rounded-circle"></td>
-                    <td>Aletha White</td>
-                    <td>aletha@mail.com</td>
-                    <td>Laboratory</td>
-                    <td><a href="#" class="btn btn-sm btn-primary">View</a></td>
-                </tr>
+                @forelse($employees as $employee)
+                    <tr>
+                        <td><img src="https://via.placeholder.com/40" class="rounded-circle"></td>
+                        <td>{{ $employee->Name }}</td>
+                        <td>{{ $employee->Email }}</td>
+                        <td>{{ optional($employee->department)->DepartmentName ?? '-' }}</td>
+                        <td>
+                            <a href="{{ route('employees.show', $employee->EmployeeID) }}" class="btn btn-sm btn-primary">View</a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">No employees found.</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
         </div>

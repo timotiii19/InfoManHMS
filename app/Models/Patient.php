@@ -5,42 +5,35 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 class Patient extends Model
 {
     use HasFactory;
 
     protected $primaryKey = 'PatientID';
-
     protected $fillable = [
-        'FullName', 'DateOfBirth', 'Sex', 'Address', 'ContactNumber', 'PatientType', 'LocationID'
+        'Name',
+        'DateOfBirth',
+        'Sex',
+        'Address',
+        'ContactNumber',
+        'PatientType',
+        'LocationID',
     ];
 
-    /**
-     * A patient belongs to a location.
-     */
-    public function location()
+    public function inpatient()
     {
-        return $this->belongsTo(Location::class, 'LocationID');
+        return $this->hasOne(Inpatient::class, 'PatientID');
     }
 
-    // Optional: Add relationships, for example, for a patient having many appointments or medications
+    public function outpatient()
+    {
+        return $this->hasOne(Outpatient::class, 'PatientID');
+    }
+
     public function appointments()
     {
         return $this->hasMany(Appointment::class, 'PatientID');
     }
-
-    public function inpatientRecords()
-    {
-        return $this->hasMany(Inpatient::class, 'PatientID');
-    }
-
-    public function outpatientRecords()
-    {
-        return $this->hasMany(Outpatient::class, 'PatientID');
-    }
 }
+
+

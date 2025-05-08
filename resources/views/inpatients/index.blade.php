@@ -1,15 +1,13 @@
-<!-- resources/views/inpatients/index.blade.php -->
-
 @extends('layouts.app')
 
 @section('content')
 <div class="container">
-    <h2>Inpatients</h2>
-    <a href="{{ route('inpatients.create') }}" class="btn btn-primary mb-3">Create Inpatient</a>
-    <table class="table table-bordered">
+    <h1>Inpatients</h1>
+    <a href="{{ route('inpatients.create') }}" class="btn btn-primary mb-3">Add Inpatient</a>
+    <table class="table">
         <thead>
             <tr>
-                <th>Patient</th>
+                <th>Patient Name</th>
                 <th>Doctor</th>
                 <th>Department</th>
                 <th>Location</th>
@@ -19,21 +17,21 @@
         </thead>
         <tbody>
             @foreach($inpatients as $inpatient)
-            <tr>
-                <td>{{ $inpatient->patient->FullName }}</td>  <!-- Display Patient Full Name -->
-                <td>{{ $inpatient->doctor->FullName }}</td>   <!-- Display Doctor Full Name -->
-                <td>{{ $inpatient->department->DepartmentName }}</td>
-                <td>{{ $inpatient->location->LocationName }}</td>
-                <td>{{ $inpatient->Availability }}</td>
-                <td>
-                    <a href="{{ route('inpatients.edit', $inpatient->InpatientID) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('inpatients.destroy', $inpatient->InpatientID) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this inpatient?')">Delete</button>
-                    </form>
-                </td>
-            </tr>
+                <tr>
+                    <td>{{ $inpatient->patient->Name }}</td>
+                    <td>{{ $inpatient->doctor->Name }}</td>
+                    <td>{{ $inpatient->department->Name }}</td>
+                    <td>{{ $inpatient->location->Name }}</td>
+                    <td>{{ $inpatient->Availability }}</td>
+                    <td>
+                        <a href="{{ route('inpatients.edit', $inpatient->InpatientID) }}" class="btn btn-warning">Edit</a>
+                        <form action="{{ route('inpatients.destroy', $inpatient->InpatientID) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>

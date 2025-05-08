@@ -1,39 +1,43 @@
 @extends('layouts.app')
 
+@section('title', 'Patients')
+
 @section('content')
-<div class="container">
-    <h2>Patients List</h2>
-    <a href="{{ route('patients.create') }}" class="btn btn-primary mb-3">Add New Patient</a>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Date of Birth</th>
-                <th>Sex</th>
-                <th>Contact Number</th>
-                <th>Patient Type</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($patients as $patient)
-            <tr>
-                <td>{{ $patient->Name }}</td>
-                <td>{{ $patient->DateOfBirth }}</td>
-                <td>{{ $patient->Sex }}</td>
-                <td>{{ $patient->ContactNumber }}</td>
-                <td>{{ $patient->PatientType }}</td>
-                <td>
-                    <a href="{{ route('patients.edit', $patient->PatientID) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('patients.destroy', $patient->PatientID) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this patient?')">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+    <h2 class="mb-4 text-center">Patients List</h2>
+
+    <!-- Patients Table -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Patient ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($patients as $patient)
+                    <tr>
+                        <td>{{ $patient->PatientID }}</td>
+                        <td>{{ $patient->Name }}</td>
+                        <td>{{ $patient->PatientType }}</td>
+                        <td>
+                            <!-- Inpatient Button -->
+                            <form action="{{ route('patients.assignInpatient', $patient->PatientID) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-success">Assign as Inpatient</button>
+                            </form>
+
+                            <!-- Outpatient Button -->
+                            <form action="{{ route('patients.assignOutpatient', $patient->PatientID) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-warning">Assign as Outpatient</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 @endsection

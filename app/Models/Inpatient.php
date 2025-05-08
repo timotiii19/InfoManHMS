@@ -10,9 +10,16 @@ class Inpatient extends Model
     use HasFactory;
 
     protected $primaryKey = 'InpatientID';
-
     protected $fillable = [
-        'PatientID', 'DoctorID', 'DepartmentID', 'LocationID', 'Availability', 'MedicalRecord', 'AdmissionDate', 'DischargeDate', 'Diagnosis',
+        'PatientID',
+        'DoctorID',
+        'DepartmentID',
+        'LocationID',
+        'Availability',
+        'MedicalRecord',
+        'AdmissionDate',
+        'DischargeDate',
+        'Diagnosis',
     ];
 
     public function patient()

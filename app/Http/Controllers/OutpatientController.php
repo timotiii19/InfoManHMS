@@ -16,13 +16,19 @@ class OutpatientController extends Controller
         return view('outpatients.index', compact('outpatients'));
     }
 
-    public function create()
+    public function create($patientId)
     {
-        $patients = Patient::all();
+        // Retrieve the patient by ID
+        $patient = Patient::findOrFail($patientId);
+        
+        // Retrieve all necessary data for the view
         $doctors = Doctor::all();
         $departments = Department::all();
-        return view('outpatients.create', compact('patients', 'doctors', 'departments'));
+        
+        // Return the view and pass the patient data
+        return view('outpatients.create', compact('patient', 'doctors', 'departments'));
     }
+
 
     public function store(Request $request)
     {

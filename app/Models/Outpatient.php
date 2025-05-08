@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,16 +11,19 @@ class Outpatient extends Model
     use HasFactory;
 
     protected $primaryKey = 'OutpatientID';
-
     protected $fillable = [
-        'PatientID', 'DoctorID', 'DepartmentID', 'VisitDate', 'Reason'
+        'PatientID',
+        'DoctorID',
+        'DepartmentID',
+        'VisitDate',
+        'Reason',
     ];
 
-    // Relationship with Patient
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'PatientID');
     }
+
 
     // Relationship with Doctor
     public function doctor()
