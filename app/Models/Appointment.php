@@ -9,16 +9,22 @@ class Appointment extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'AppointmentID';
+    // The table associated with the model
+    protected $table = 'outpatients';
 
+    // The primary key of the table
+    protected $primaryKey = 'OutpatientID';
+
+    // The attributes that are mass assignable
     protected $fillable = [
         'PatientID',
         'DoctorID',
-        'AppointmentDate',
-        'AppointmentTime',
-        'Status',
+        'DepartmentID',
+        'VisitDate',
+        'Reason',
     ];
 
+    // Define relationships with other models
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'PatientID');
@@ -27,5 +33,10 @@ class Appointment extends Model
     public function doctor()
     {
         return $this->belongsTo(Doctor::class, 'DoctorID');
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'DepartmentID');
     }
 }

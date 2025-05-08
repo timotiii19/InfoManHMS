@@ -2,27 +2,35 @@
 
 @section('content')
 <div class="container">
-    <h2>Locations and Rooms</h2>
-    <a href="{{ route('locations.create') }}" class="btn btn-primary mb-3">Add Room</a>
+    <h2>Locations</h2>
+    <a href="{{ route('locations.create') }}" class="btn btn-primary mb-3">Create Location</a>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Location</th><th>Room</th><th>Type</th><th>Capacity</th><th>Description</th><th>Actions</th>
+                <th>Room Type</th>
+                <th>Room Capacity</th>
+                <th>Availability</th>
+                <th>Building</th>
+                <th>Floor</th>
+                <th>Room Number</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach($locations as $location)
             <tr>
-                <td>{{ $location->LocationName }}</td>
-                <td>{{ $location->RoomName }}</td>
                 <td>{{ $location->RoomType }}</td>
-                <td>{{ $location->Capacity }}</td>
-                <td>{{ $location->Description }}</td>
+                <td>{{ $location->RoomCapacity }}</td>
+                <td>{{ $location->Availability }}</td>
+                <td>{{ $location->Building }}</td>
+                <td>{{ $location->Floor }}</td>
+                <td>{{ $location->RoomNumber }}</td>
                 <td>
-                    <a href="{{ route('locations.edit', $location) }}" class="btn btn-sm btn-warning">Edit</a>
-                    <form action="{{ route('locations.destroy', $location) }}" method="POST" class="d-inline">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this room?')">Delete</button>
+                    <a href="{{ route('locations.edit', $location->LocationID) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('locations.destroy', $location->LocationID) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this location?')">Delete</button>
                     </form>
                 </td>
             </tr>

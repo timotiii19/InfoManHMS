@@ -9,11 +9,8 @@ return new class extends Migration {
     {
         Schema::create('pharmacists', function (Blueprint $table) {
             $table->id('PharmacistID');
-            $table->string('FirstName');
-            $table->string('LastName');
-            $table->string('Email')->unique();
-            $table->string('PhoneNumber');
-            $table->timestamps();
+            $table->string('Name', 100);
+            $table->string('ContactNumber', 15);
         });
     }
 

@@ -9,11 +9,12 @@ return new class extends Migration {
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id('LocationID');
-            $table->string('LocationName', 100); // e.g., Main Building, ER Wing
-            $table->string('RoomName', 50);      // e.g., Room 101, ICU-2
-            $table->string('RoomType', 50)->nullable(); // e.g., ICU, Ward
-            $table->integer('Capacity')->nullable();
-            $table->string('Description', 255)->nullable();
+            $table->enum('RoomType', ['Ward', 'Private', 'Semi-Private']);
+            $table->integer('RoomCapacity');
+            $table->enum('Availability', ['Occupied', 'Unoccupied']);
+            $table->string('Building', 100);
+            $table->integer('Floor');
+            $table->integer('RoomNumber');
             $table->timestamps();
         });
     }

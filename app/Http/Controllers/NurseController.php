@@ -3,63 +3,66 @@
 namespace App\Http\Controllers;
 
 use App\Models\Nurse;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class NurseController extends Controller
 {
     public function index()
     {
-        $nurses = Nurse::all();
+        $nurses = Nurse::with('department')->get();
         return view('nurses.index', compact('nurses'));
     }
 
     public function create()
     {
-        return view('nurses.create');
+        $departments = Department::all();
+        return view('nurses.create', compact('departments'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'FirstName' => 'required|string|max:255',
-            'LastName' => 'required|string|max:255',
-            'Gender' => 'required|string',
-            'DateOfBirth' => 'required|date',
-            'Phone' => 'required|string|max:20',
-            'Email' => 'required|email|unique:nurses,Email',
-            'Address' => 'required|string',
-            'Department' => 'required|string',
+        $request->validate([
+            'Name' => 'required|string|max:100',
+            'DepartmentID' => 'required|exists:departments,DepartmentID',
+            'Email' => 'required|email|unique:nurses,Email|max:100',
+            'Availability' => 'required|string|max:20',
+            'ContactNumber' => 'required|string|max:15',
         ]);
 
-        Nurse::create($validated);
-        return redirect()->route('nurses.index')->with('success', 'Nurse added successfully.');
+        Nurse::create($request->all());
+
+        return redirect()->route('nurses.index')->with('success', 'Nurse created successfully.');
     }
 
-    public function edit(Nurse $nurse)
+    public function edit($id)
     {
-        return view('nurses.edit', compact('nurse'));
+        $nurse = Nurse::findOrFail($id);
+        $departments = Department::all();
+        return view('nurses.edit', compact('nurse', 'departments'));
     }
 
-    public function update(Request $request, Nurse $nurse)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'FirstName' => 'required|string|max:255',
-            'LastName' => 'required|string|max:255',
-            'Gender' => 'required|string',
-            'DateOfBirth' => 'required|date',
-            'Phone' => 'required|string|max:20',
-            'Email' => 'required|email|unique:nurses,Email,' . $nurse->NurseID . ',NurseID',
-            'Address' => 'required|string',
-            'Department' => 'required|string',
+        $request->validate([
+            'Name' => 'required|string|max:100',
+            'DepartmentID' => 'required|exists:departments,DepartmentID',
+            'Email' => 'required|email|max:100|unique:nurses,Email,' . $id . ',NurseID',
+            'Availability' => 'required|string|max:20',
+            'ContactNumber' => 'required|string|max:15',
         ]);
 
-        $nurse->update($validated);
+        $nurse = Nurse::findOrFail($id);
+        $nurse->update($request->all());
+
         return redirect()->route('nurses.index')->with('success', 'Nurse updated successfully.');
     }
 
-    public function destroy(Nurse $nurse)
+    public function destroy($id)
     {
+        $nurse = Nurse::findOrFail($id);
         $nurse->delete();
+
         return redirect()->route('nurses.index')->with('success', 'Nurse deleted successfully.');
     }
 }

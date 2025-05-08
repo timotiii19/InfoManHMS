@@ -4,59 +4,71 @@ namespace App\Http\Controllers;
 
 use App\Models\Outpatient;
 use App\Models\Patient;
+use App\Models\Doctor;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class OutpatientController extends Controller
 {
     public function index()
     {
-        $outpatients = Outpatient::with('patient')->get();
+        $outpatients = Outpatient::with(['patient', 'doctor', 'department'])->get();
         return view('outpatients.index', compact('outpatients'));
     }
 
     public function create()
     {
         $patients = Patient::all();
-        return view('outpatients.create', compact('patients'));
+        $doctors = Doctor::all();
+        $departments = Department::all();
+        return view('outpatients.create', compact('patients', 'doctors', 'departments'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'PatientID' => 'required|exists:patients,PatientID',
+            'DoctorID' => 'required|exists:doctors,DoctorID',
+            'DepartmentID' => 'required|exists:departments,DepartmentID',
             'VisitDate' => 'required|date',
-            'Diagnosis' => 'required|string',
-            'Treatment' => 'required|string',
-            'Doctor' => 'required|string',
+            'Reason' => 'required|string|max:255',
         ]);
 
-        Outpatient::create($validated);
-        return redirect()->route('outpatients.index')->with('success', 'Outpatient added successfully.');
+        Outpatient::create($request->all());
+
+        return redirect()->route('outpatients.index')->with('success', 'Outpatient created successfully.');
     }
 
-    public function edit(Outpatient $outpatient)
+    public function edit($id)
     {
+        $outpatient = Outpatient::findOrFail($id);
         $patients = Patient::all();
-        return view('outpatients.edit', compact('outpatient', 'patients'));
+        $doctors = Doctor::all();
+        $departments = Department::all();
+        return view('outpatients.edit', compact('outpatient', 'patients', 'doctors', 'departments'));
     }
 
-    public function update(Request $request, Outpatient $outpatient)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
+        $request->validate([
             'PatientID' => 'required|exists:patients,PatientID',
+            'DoctorID' => 'required|exists:doctors,DoctorID',
+            'DepartmentID' => 'required|exists:departments,DepartmentID',
             'VisitDate' => 'required|date',
-            'Diagnosis' => 'required|string',
-            'Treatment' => 'required|string',
-            'Doctor' => 'required|string',
+            'Reason' => 'required|string|max:255',
         ]);
 
-        $outpatient->update($validated);
+        $outpatient = Outpatient::findOrFail($id);
+        $outpatient->update($request->all());
+
         return redirect()->route('outpatients.index')->with('success', 'Outpatient updated successfully.');
     }
 
-    public function destroy(Outpatient $outpatient)
+    public function destroy($id)
     {
+        $outpatient = Outpatient::findOrFail($id);
         $outpatient->delete();
+
         return redirect()->route('outpatients.index')->with('success', 'Outpatient deleted successfully.');
     }
 }

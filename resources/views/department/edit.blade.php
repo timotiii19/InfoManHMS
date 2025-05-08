@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h2>Edit Department</h2>
-    <form method="POST" action="{{ route('department.update', $department) }}">
+    <form method="POST" action="{{ route('department.update', $department->DepartmentID) }}">
         @csrf
         @method('PUT')
         @include('department.form')

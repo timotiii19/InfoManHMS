@@ -1,24 +1,36 @@
 <div class="mb-3">
-    <label>Location Name</label>
-    <input type="text" name="LocationName" class="form-control" value="{{ old('LocationName', $location->LocationName ?? '') }}" required>
+    <label for="RoomType">Room Type</label>
+    <select name="RoomType" id="RoomType" class="form-control" required>
+        <option value="Ward" @if(old('RoomType', $location->RoomType ?? '') == 'Ward') selected @endif>Ward</option>
+        <option value="Private" @if(old('RoomType', $location->RoomType ?? '') == 'Private') selected @endif>Private</option>
+        <option value="Semi-Private" @if(old('RoomType', $location->RoomType ?? '') == 'Semi-Private') selected @endif>Semi-Private</option>
+    </select>
 </div>
 
 <div class="mb-3">
-    <label>Room Name</label>
-    <input type="text" name="RoomName" class="form-control" value="{{ old('RoomName', $location->RoomName ?? '') }}" required>
+    <label for="RoomCapacity">Room Capacity</label>
+    <input type="number" name="RoomCapacity" id="RoomCapacity" class="form-control" value="{{ old('RoomCapacity', $location->RoomCapacity ?? '') }}" required>
 </div>
 
 <div class="mb-3">
-    <label>Room Type</label>
-    <input type="text" name="RoomType" class="form-control" value="{{ old('RoomType', $location->RoomType ?? '') }}">
+    <label for="Availability">Availability</label>
+    <select name="Availability" id="Availability" class="form-control" required>
+        <option value="Occupied" @if(old('Availability', $location->Availability ?? '') == 'Occupied') selected @endif>Occupied</option>
+        <option value="Unoccupied" @if(old('Availability', $location->Availability ?? '') == 'Unoccupied') selected @endif>Unoccupied</option>
+    </select>
 </div>
 
 <div class="mb-3">
-    <label>Capacity</label>
-    <input type="number" name="Capacity" class="form-control" value="{{ old('Capacity', $location->Capacity ?? '') }}">
+    <label for="Building">Building</label>
+    <input type="text" name="Building" id="Building" class="form-control" value="{{ old('Building', $location->Building ?? '') }}" required>
 </div>
 
 <div class="mb-3">
-    <label>Description</label>
-    <input type="text" name="Description" class="form-control" value="{{ old('Description', $location->Description ?? '') }}">
+    <label for="Floor">Floor</label>
+    <input type="number" name="Floor" id="Floor" class="form-control" value="{{ old('Floor', $location->Floor ?? '') }}" required>
+</div>
+
+<div class="mb-3">
+    <label for="RoomNumber">Room Number</label>
+    <input type="number" name="RoomNumber" id="RoomNumber" class="form-control" value="{{ old('RoomNumber', $location->RoomNumber ?? '') }}" required>
 </div>

@@ -2,15 +2,12 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Edit Billing</h1>
-
-    <form action="{{ route('billings.update', $billing->id) }}" method="POST">
+    <h2>Edit Billing</h2>
+    <form method="POST" action="{{ route('billing.update', $billing->BillingID) }}">
         @csrf
         @method('PUT')
-
-        @include('billings.form', ['billing' => $billing])
-
-        <button type="submit" class="btn btn-success">Update</button>
+        @include('billing.form')
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>
 @endsection

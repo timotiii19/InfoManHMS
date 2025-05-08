@@ -10,18 +10,27 @@ class Inpatient extends Model
     use HasFactory;
 
     protected $primaryKey = 'InpatientID';
-
     protected $fillable = [
-        'PatientID',
-        'AdmissionDate',
-        'DischargeDate',
-        'Diagnosis',
-        'Treatment',
-        'Doctor',
+        'PatientID', 'DoctorID', 'DepartmentID', 'LocationID', 'Availability', 'MedicalRecord',
     ];
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'PatientID', 'PatientID');
+        return $this->belongsTo(Patient::class, 'PatientID');
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class, 'DoctorID');
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'DepartmentID');
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class, 'LocationID');
     }
 }

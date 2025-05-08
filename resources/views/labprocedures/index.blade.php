@@ -3,25 +3,32 @@
 @section('content')
 <div class="container">
     <h2>Lab Procedures</h2>
-    <a href="{{ route('labprocedures.create') }}" class="btn btn-primary mb-3">Add Lab Procedure</a>
+    <a href="{{ route('lab_procedures.create') }}" class="btn btn-primary mb-3">Create Lab Procedure</a>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Patient</th><th>Procedure Type</th><th>Date</th><th>Results</th><th>Actions</th>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Test Date</th>
+                <th>Result</th>
+                <th>Date Released</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($labprocedures as $procedure)
+            @foreach($labProcedures as $labProcedure)
             <tr>
-                <td>{{ $procedure->patient->FirstName }} {{ $procedure->patient->LastName }}</td>
-                <td>{{ $procedure->ProcedureType }}</td>
-                <td>{{ $procedure->ProcedureDate }}</td>
-                <td>{{ $procedure->Results }}</td>
+                <td>{{ $labProcedure->patient->FullName }}</td>
+                <td>{{ $labProcedure->doctor->FullName }}</td>
+                <td>{{ $labProcedure->TestDate }}</td>
+                <td>{{ $labProcedure->Result }}</td>
+                <td>{{ $labProcedure->DateReleased }}</td>
                 <td>
-                    <a href="{{ route('labprocedures.edit', $procedure) }}" class="btn btn-sm btn-warning">Edit</a>
-                    <form action="{{ route('labprocedures.destroy', $procedure) }}" method="POST" class="d-inline">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this procedure?')">Delete</button>
+                    <a href="{{ route('lab_procedures.edit', $labProcedure->LabProcedureID) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('lab_procedures.destroy', $labProcedure->LabProcedureID) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this lab procedure?')">Delete</button>
                     </form>
                 </td>
             </tr>

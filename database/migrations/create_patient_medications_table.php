@@ -8,16 +8,19 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('patient_medications', function (Blueprint $table) {
-            $table->id('MedicationID');
+            $table->id('PatientMedicationID');
             $table->unsignedBigInteger('PatientID');
-            $table->unsignedBigInteger('PharmacyID');
-            $table->string('Dosage', 100);
-            $table->string('Frequency', 100);
-            $table->string('Duration', 100);
+            $table->unsignedBigInteger('MedicineID');
+            $table->unsignedBigInteger('DoctorID');
+            $table->string('Dosage', 50);
+            $table->string('Frequency', 50);
+            $table->date('StartDate');
+            $table->date('EndDate');
             $table->timestamps();
 
             $table->foreign('PatientID')->references('PatientID')->on('patients')->onDelete('cascade');
-            $table->foreign('PharmacyID')->references('PharmacyID')->on('pharmacies')->onDelete('cascade');
+            $table->foreign('MedicineID')->references('MedicineID')->on('pharmacies')->onDelete('cascade');
+            $table->foreign('DoctorID')->references('DoctorID')->on('doctors')->onDelete('cascade');
         });
     }
 

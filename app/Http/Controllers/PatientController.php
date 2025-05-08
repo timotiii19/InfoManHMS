@@ -3,58 +3,52 @@
 namespace App\Http\Controllers;
 
 use App\Models\Patient;
-use App\Models\Location;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
     public function index()
     {
-        $patients = Patient::with('location')->get();
+        $patients = Patient::all();
         return view('patients.index', compact('patients'));
     }
 
     public function create()
     {
-        $locations = Location::all();
-        return view('patients.create', compact('locations'));
+        return view('patients.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'FirstName' => 'required|string',
-            'LastName' => 'required|string',
-            'Gender' => 'required',
-            'DOB' => 'required|date',
-            'Phone' => 'nullable|string',
-            'Email' => 'nullable|email',
-            'Address' => 'nullable|string',
-            'LocationID' => 'nullable|exists:locations,LocationID',
+            'Name' => 'required|string|max:100',
+            'DateOfBirth' => 'required|date',
+            'Sex' => 'required|in:Male,Female',
+            'Address' => 'required|string|max:255',
+            'ContactNumber' => 'required|string|max:15',
+            'PatientType' => 'required|in:Outpatient,Inpatient',
         ]);
 
         Patient::create($request->all());
+
         return redirect()->route('patients.index')->with('success', 'Patient created successfully.');
     }
 
     public function edit($id)
     {
         $patient = Patient::findOrFail($id);
-        $locations = Location::all();
-        return view('patients.edit', compact('patient', 'locations'));
+        return view('patients.edit', compact('patient'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'FirstName' => 'required|string',
-            'LastName' => 'required|string',
-            'Gender' => 'required',
-            'DOB' => 'required|date',
-            'Phone' => 'nullable|string',
-            'Email' => 'nullable|email',
-            'Address' => 'nullable|string',
-            'LocationID' => 'nullable|exists:locations,LocationID',
+            'Name' => 'required|string|max:100',
+            'DateOfBirth' => 'required|date',
+            'Sex' => 'required|in:Male,Female',
+            'Address' => 'required|string|max:255',
+            'ContactNumber' => 'required|string|max:15',
+            'PatientType' => 'required|in:Outpatient,Inpatient',
         ]);
 
         $patient = Patient::findOrFail($id);
@@ -65,7 +59,9 @@ class PatientController extends Controller
 
     public function destroy($id)
     {
-        Patient::destroy($id);
+        $patient = Patient::findOrFail($id);
+        $patient->delete();
+
         return redirect()->route('patients.index')->with('success', 'Patient deleted successfully.');
     }
 }

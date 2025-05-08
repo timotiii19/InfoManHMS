@@ -10,17 +10,13 @@ class CreatePatientsTable extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id('PatientID');
-            $table->string('FirstName');
-            $table->string('LastName');
-            $table->enum('Gender', ['Male', 'Female', 'Other']);
-            $table->date('DOB');
-            $table->string('Phone')->nullable();
-            $table->string('Email')->nullable();
-            $table->string('Address')->nullable();
-            $table->unsignedBigInteger('LocationID')->nullable();
+            $table->string('Name', 100);
+            $table->date('DateOfBirth');
+            $table->enum('Sex', ['Male', 'Female']);
+            $table->string('Address', 255);
+            $table->string('ContactNumber', 15);
+            $table->enum('PatientType', ['Outpatient', 'Inpatient']);
             $table->timestamps();
-
-            $table->foreign('LocationID')->references('LocationID')->on('locations')->onDelete('set null');
         });
     }
 

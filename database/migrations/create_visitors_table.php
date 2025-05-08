@@ -9,15 +9,15 @@ return new class extends Migration {
     {
         Schema::create('visitors', function (Blueprint $table) {
             $table->id('VisitorID');
-            $table->string('FirstName');
-            $table->string('LastName');
-            $table->string('PhoneNumber');
-            $table->date('VisitDate');
-            $table->time('VisitTime');
             $table->unsignedBigInteger('PatientID');
-            $table->timestamps();
+            $table->string('VisitorName', 100);
+            $table->string('Relationship', 50);
+            $table->dateTime('VisitDateTime');
+            $table->unsignedBigInteger('LocationID');
+            $table->string('ContactNumber', 15);
 
             $table->foreign('PatientID')->references('PatientID')->on('patients')->onDelete('cascade');
+            $table->foreign('LocationID')->references('LocationID')->on('locations')->onDelete('cascade');
         });
     }
 

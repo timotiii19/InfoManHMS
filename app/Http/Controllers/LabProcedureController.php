@@ -4,57 +4,68 @@ namespace App\Http\Controllers;
 
 use App\Models\LabProcedure;
 use App\Models\Patient;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 
 class LabProcedureController extends Controller
 {
     public function index()
     {
-        $labprocedures = LabProcedure::with('patient')->get();
-        return view('labprocedures.index', compact('labprocedures'));
+        $labProcedures = LabProcedure::with(['patient', 'doctor'])->get();
+        return view('lab_procedures.index', compact('labProcedures'));
     }
 
     public function create()
     {
         $patients = Patient::all();
-        return view('labprocedures.create', compact('patients'));
+        $doctors = Doctor::all();
+        return view('lab_procedures.create', compact('patients', 'doctors'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'PatientID' => 'required|exists:patients,PatientID',
-            'ProcedureType' => 'required|string|max:100',
-            'ProcedureDate' => 'required|date',
-            'Results' => 'nullable|string',
+        $request->validate([
+            'PatientID' => 'required',
+            'DoctorID' => 'required',
+            'TestDate' => 'required|date',
+            'Result' => 'required',
+            'DateReleased' => 'required|date',
         ]);
 
-        LabProcedure::create($validated);
-        return redirect()->route('labprocedures.index')->with('success', 'Lab procedure added successfully!');
+        LabProcedure::create($request->all());
+
+        return redirect()->route('lab_procedures.index')->with('success', 'Lab procedure created successfully.');
     }
 
-    public function edit(LabProcedure $labprocedure)
+    public function edit($id)
     {
+        $labProcedure = LabProcedure::findOrFail($id);
         $patients = Patient::all();
-        return view('labprocedures.edit', compact('labprocedure', 'patients'));
+        $doctors = Doctor::all();
+        return view('lab_procedures.edit', compact('labProcedure', 'patients', 'doctors'));
     }
 
-    public function update(Request $request, LabProcedure $labprocedure)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'PatientID' => 'required|exists:patients,PatientID',
-            'ProcedureType' => 'required|string|max:100',
-            'ProcedureDate' => 'required|date',
-            'Results' => 'nullable|string',
+        $request->validate([
+            'PatientID' => 'required',
+            'DoctorID' => 'required',
+            'TestDate' => 'required|date',
+            'Result' => 'required',
+            'DateReleased' => 'required|date',
         ]);
 
-        $labprocedure->update($validated);
-        return redirect()->route('labprocedures.index')->with('success', 'Lab procedure updated successfully!');
+        $labProcedure = LabProcedure::findOrFail($id);
+        $labProcedure->update($request->all());
+
+        return redirect()->route('lab_procedures.index')->with('success', 'Lab procedure updated successfully.');
     }
 
-    public function destroy(LabProcedure $labprocedure)
+    public function destroy($id)
     {
-        $labprocedure->delete();
-        return redirect()->route('labprocedures.index')->with('success', 'Lab procedure deleted successfully!');
+        $labProcedure = LabProcedure::findOrFail($id);
+        $labProcedure->delete();
+
+        return redirect()->route('lab_procedures.index')->with('success', 'Lab procedure deleted successfully.');
     }
 }

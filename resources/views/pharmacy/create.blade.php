@@ -2,10 +2,10 @@
 
 @section('content')
 <div class="container">
-    <h2>Add Medicine</h2>
-    <form method="POST" action="{{ route('pharmacy.store') }}">
+    <h2>Create Medicine</h2>
+    <form method="POST" action="{{ route('pharmacies.store') }}">
         @csrf
-        @include('pharmacy.form')
+        @include('pharmacies.form')
         <button type="submit" class="btn btn-success">Save</button>
     </form>
 </div>

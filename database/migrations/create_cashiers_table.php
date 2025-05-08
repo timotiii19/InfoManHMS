@@ -9,10 +9,7 @@ return new class extends Migration {
     {
         Schema::create('cashiers', function (Blueprint $table) {
             $table->id('CashierID');
-            $table->string('FirstName');
-            $table->string('LastName');
-            $table->string('Email')->unique();
-            $table->string('PhoneNumber');
+            $table->string('Name', 100);
             $table->timestamps();
         });
     }

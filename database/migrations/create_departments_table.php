@@ -8,9 +8,9 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('departments', function (Blueprint $table) {
-            $table->id('DepartmentID');
+            $table->id('DepartmentID'); // Primary key
             $table->string('DepartmentName', 100);
-            $table->string('Description', 255)->nullable();
+            $table->string('DepartmentRoom', 50); // Added based on PDF
             $table->timestamps();
         });
     }

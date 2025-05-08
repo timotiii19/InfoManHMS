@@ -7,51 +7,56 @@ use Illuminate\Http\Request;
 
 class PharmacistController extends Controller
 {
+    // Display a listing of pharmacists
     public function index()
     {
         $pharmacists = Pharmacist::all();
         return view('pharmacists.index', compact('pharmacists'));
     }
 
+    // Show the form for creating a new pharmacist
     public function create()
     {
         return view('pharmacists.create');
     }
 
+    // Store a newly created pharmacist in storage
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'FirstName' => 'required|string|max:255',
-            'LastName' => 'required|string|max:255',
-            'Email' => 'required|email|unique:pharmacists',
-            'PhoneNumber' => 'required|string|max:20',
+        $request->validate([
+            'Name' => 'required|max:100',
+            'ContactNumber' => 'required|max:15',
         ]);
 
-        Pharmacist::create($validated);
-        return redirect()->route('pharmacists.index')->with('success', 'Pharmacist created successfully.');
+        Pharmacist::create($request->all());
+        return redirect()->route('pharmacists.index')->with('success', 'Pharmacist added successfully');
     }
 
-    public function edit(Pharmacist $pharmacist)
+    // Show the form for editing the specified pharmacist
+    public function edit($id)
     {
+        $pharmacist = Pharmacist::findOrFail($id);
         return view('pharmacists.edit', compact('pharmacist'));
     }
 
-    public function update(Request $request, Pharmacist $pharmacist)
+    // Update the specified pharmacist in storage
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'FirstName' => 'required|string|max:255',
-            'LastName' => 'required|string|max:255',
-            'Email' => 'required|email|unique:pharmacists,Email,' . $pharmacist->PharmacistID . ',PharmacistID',
-            'PhoneNumber' => 'required|string|max:20',
+        $request->validate([
+            'Name' => 'required|max:100',
+            'ContactNumber' => 'required|max:15',
         ]);
 
-        $pharmacist->update($validated);
-        return redirect()->route('pharmacists.index')->with('success', 'Pharmacist updated successfully.');
+        $pharmacist = Pharmacist::findOrFail($id);
+        $pharmacist->update($request->all());
+        return redirect()->route('pharmacists.index')->with('success', 'Pharmacist updated successfully');
     }
 
-    public function destroy(Pharmacist $pharmacist)
+    // Remove the specified pharmacist from storage
+    public function destroy($id)
     {
+        $pharmacist = Pharmacist::findOrFail($id);
         $pharmacist->delete();
-        return redirect()->route('pharmacists.index')->with('success', 'Pharmacist deleted successfully.');
+        return redirect()->route('pharmacists.index')->with('success', 'Pharmacist deleted successfully');
     }
 }

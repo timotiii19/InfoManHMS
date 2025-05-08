@@ -19,25 +19,33 @@ use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VisitorController;
 
-
-
 use App\Models\Outpatient;
 use App\Models\Inpatient;
 use App\Models\Pharmacist;
 use App\Models\Patient;
 use App\Models\Doctor;
 use App\Models\Nurse;
+use App\Models\Visitor;
+use App\Models\Appointment;
+use App\Models\LabProcedure;
+use App\Models\Department;
+use App\Models\Pharmacy;
 
 Route::get('/dashboard', function () {
     return view('dashboard', [
         'outpatientCount' => Outpatient::count(),
         'inpatientCount' => Inpatient::count(),
         'employeeCount' => Doctor::count() + Nurse::count(),
-        'pharmaceuticalCount' => Pharmacist::count(),
+        'pharmaceuticalCount' => Pharmacy::count(),
+        'visitorCount' => Visitor::count(),
+        'labProcedureCount' => LabProcedure::count(),
+        'appointmentCount' => Appointment::count(),
+        'departmentCount' => Department::count(),
         'patients' => Patient::all()
     ]);
 });
 
+Route::get('/doctors/{doctor}/schedule', [DoctorController::class, 'schedule'])->name('doctors.schedule');
 
 // Resource routes for each table (folder)
 Route::resource('appointments', AppointmentController::class);

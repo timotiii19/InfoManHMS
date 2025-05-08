@@ -3,26 +3,32 @@
 @section('content')
 <div class="container">
     <h2>Outpatients</h2>
-    <a href="{{ route('outpatients.create') }}" class="btn btn-primary mb-3">Add Outpatient</a>
+    <a href="{{ route('outpatients.create') }}" class="btn btn-primary mb-3">Create Outpatient</a>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Patient</th><th>Visit Date</th><th>Diagnosis</th><th>Treatment</th><th>Doctor</th><th>Actions</th>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Department</th>
+                <th>Visit Date</th>
+                <th>Reason</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($outpatients as $out)
+            @foreach($outpatients as $outpatient)
             <tr>
-                <td>{{ $out->patient->FirstName }} {{ $out->patient->LastName }}</td>
-                <td>{{ $out->VisitDate }}</td>
-                <td>{{ $out->Diagnosis }}</td>
-                <td>{{ $out->Treatment }}</td>
-                <td>{{ $out->Doctor }}</td>
+                <td>{{ $outpatient->patient->FullName }}</td>
+                <td>{{ $outpatient->doctor->FullName }}</td>
+                <td>{{ $outpatient->department->DepartmentName }}</td>
+                <td>{{ $outpatient->VisitDate }}</td>
+                <td>{{ $outpatient->Reason }}</td>
                 <td>
-                    <a href="{{ route('outpatients.edit', $out) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('outpatients.destroy', $out) }}" method="POST" class="d-inline">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this record?')">Delete</button>
+                    <a href="{{ route('outpatients.edit', $outpatient->OutpatientID) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('outpatients.destroy', $outpatient->OutpatientID) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this outpatient?')">Delete</button>
                     </form>
                 </td>
             </tr>

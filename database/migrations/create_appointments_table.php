@@ -7,22 +7,23 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('appointments', function (Blueprint $table) {
-            $table->id('AppointmentID');
+        Schema::create('outpatients', function (Blueprint $table) {
+            $table->id('OutpatientID');
             $table->unsignedBigInteger('PatientID');
             $table->unsignedBigInteger('DoctorID');
-            $table->dateTime('AppointmentDate');
-            $table->string('Reason')->nullable();
-            $table->string('Status', 20)->default('Scheduled'); // Scheduled, Completed, Cancelled
+            $table->unsignedBigInteger('DepartmentID');
+            $table->dateTime('VisitDate');
+            $table->text('Reason')->nullable();
             $table->timestamps();
 
             $table->foreign('PatientID')->references('PatientID')->on('patients')->onDelete('cascade');
             $table->foreign('DoctorID')->references('DoctorID')->on('doctors')->onDelete('cascade');
+            $table->foreign('DepartmentID')->references('DepartmentID')->on('departments')->onDelete('cascade');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('appointments');
+        Schema::dropIfExists('outpatients');
     }
 };

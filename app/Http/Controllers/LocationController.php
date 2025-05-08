@@ -20,40 +20,48 @@ class LocationController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'LocationName' => 'required|string|max:100',
-            'RoomName' => 'required|string|max:50',
-            'RoomType' => 'nullable|string|max:50',
-            'Capacity' => 'nullable|integer',
-            'Description' => 'nullable|string|max:255',
+        $request->validate([
+            'RoomType' => 'required',
+            'RoomCapacity' => 'required|integer',
+            'Availability' => 'required',
+            'Building' => 'required|string|max:100',
+            'Floor' => 'required|integer',
+            'RoomNumber' => 'required|integer',
         ]);
 
-        Location::create($validated);
-        return redirect()->route('locations.index')->with('success', 'Location and room added successfully!');
+        Location::create($request->all());
+
+        return redirect()->route('locations.index')->with('success', 'Location created successfully.');
     }
 
-    public function edit(Location $location)
+    public function edit($id)
     {
+        $location = Location::findOrFail($id);
         return view('locations.edit', compact('location'));
     }
 
-    public function update(Request $request, Location $location)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'LocationName' => 'required|string|max:100',
-            'RoomName' => 'required|string|max:50',
-            'RoomType' => 'nullable|string|max:50',
-            'Capacity' => 'nullable|integer',
-            'Description' => 'nullable|string|max:255',
+        $request->validate([
+            'RoomType' => 'required',
+            'RoomCapacity' => 'required|integer',
+            'Availability' => 'required',
+            'Building' => 'required|string|max:100',
+            'Floor' => 'required|integer',
+            'RoomNumber' => 'required|integer',
         ]);
 
-        $location->update($validated);
-        return redirect()->route('locations.index')->with('success', 'Location and room updated successfully!');
+        $location = Location::findOrFail($id);
+        $location->update($request->all());
+
+        return redirect()->route('locations.index')->with('success', 'Location updated successfully.');
     }
 
-    public function destroy(Location $location)
+    public function destroy($id)
     {
+        $location = Location::findOrFail($id);
         $location->delete();
-        return redirect()->route('locations.index')->with('success', 'Location and room deleted successfully!');
+
+        return redirect()->route('locations.index')->with('success', 'Location deleted successfully.');
     }
 }

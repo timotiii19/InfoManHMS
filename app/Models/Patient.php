@@ -12,11 +12,22 @@ class Patient extends Model
     protected $primaryKey = 'PatientID';
 
     protected $fillable = [
-        'FirstName', 'LastName', 'Gender', 'DOB', 'Phone', 'Email', 'Address', 'LocationID',
+        'Name', 'DateOfBirth', 'Sex', 'Address', 'ContactNumber', 'PatientType'
     ];
 
-    public function location()
+    // Optional: Add relationships, for example, for a patient having many appointments or medications
+    public function appointments()
     {
-        return $this->belongsTo(Location::class, 'LocationID');
+        return $this->hasMany(Appointment::class, 'PatientID');
+    }
+
+    public function inpatientRecords()
+    {
+        return $this->hasMany(Inpatient::class, 'PatientID');
+    }
+
+    public function outpatientRecords()
+    {
+        return $this->hasMany(Outpatient::class, 'PatientID');
     }
 }

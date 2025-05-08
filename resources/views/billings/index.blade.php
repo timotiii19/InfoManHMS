@@ -2,36 +2,39 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Billing List</h1>
-
-    <a href="{{ route('billings.create') }}" class="btn btn-primary mb-3">Add Billing</a>
-
+    <h2>Patient Billing</h2>
+    <a href="{{ route('billing.create') }}" class="btn btn-primary mb-3">Add Billing</a>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Patient ID</th>
-                <th>Amount</th>
-                <th>Date</th>
-                <th>Description</th>
+                <th>Patient Name</th>
+                <th>Doctor Fee</th>
+                <th>Medicine Cost</th>
+                <th>Total Amount</th>
+                <th>Payment Date</th>
+                <th>Receipt</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($billings as $billing)
-                <tr>
-                    <td>{{ $billing->patient_id }}</td>
-                    <td>{{ $billing->amount }}</td>
-                    <td>{{ $billing->billing_date->format('Y-m-d') }}</td>
-                    <td>{{ $billing->description }}</td>
-                    <td>
-                        <a href="{{ route('billings.edit', $billing) }}" class="btn btn-sm btn-warning">Edit</a>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="5" class="text-center">No billing records found.</td>
-                </tr>
-            @endforelse
+            @foreach($billings as $billing)
+            <tr>
+                <td>{{ $billing->patient->FirstName }} {{ $billing->patient->LastName }}</td>
+                <td>${{ number_format($billing->DoctorFee, 2) }}</td>
+                <td>${{ number_format($billing->MedicineCost, 2) }}</td>
+                <td>${{ number_format($billing->TotalAmount, 2) }}</td>
+                <td>{{ $billing->PaymentDate->format('Y-m-d') }}</td>
+                <td>{{ $billing->Receipt }}</td>
+                <td>
+                    <a href="{{ route('billing.edit', $billing->BillingID) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('billing.destroy', $billing->BillingID) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this billing?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
         </tbody>
     </table>
 </div>

@@ -1,26 +1,42 @@
 <div class="mb-3">
-    <label>Patient</label>
-    <select name="PatientID" class="form-control" required>
+    <label for="PatientID">Patient</label>
+    <select name="PatientID" id="PatientID" class="form-control" required>
         @foreach($patients as $patient)
-            <option value="{{ $patient->PatientID }}" @selected(old('PatientID', $outpatient->PatientID ?? '') == $patient->PatientID)>
-                {{ $patient->FirstName }} {{ $patient->LastName }}
+            <option value="{{ $patient->PatientID }}" @if(old('PatientID', $outpatient->PatientID ?? '') == $patient->PatientID) selected @endif>
+                {{ $patient->FullName }}
             </option>
         @endforeach
     </select>
 </div>
+
 <div class="mb-3">
-    <label>Visit Date</label>
-    <input type="date" name="VisitDate" class="form-control" value="{{ old('VisitDate', $outpatient->VisitDate ?? '') }}" required>
+    <label for="DoctorID">Doctor</label>
+    <select name="DoctorID" id="DoctorID" class="form-control" required>
+        @foreach($doctors as $doctor)
+            <option value="{{ $doctor->DoctorID }}" @if(old('DoctorID', $outpatient->DoctorID ?? '') == $doctor->DoctorID) selected @endif>
+                {{ $doctor->FullName }}
+            </option>
+        @endforeach
+    </select>
 </div>
+
 <div class="mb-3">
-    <label>Diagnosis</label>
-    <input type="text" name="Diagnosis" class="form-control" value="{{ old('Diagnosis', $outpatient->Diagnosis ?? '') }}" required>
+    <label for="DepartmentID">Department</label>
+    <select name="DepartmentID" id="DepartmentID" class="form-control" required>
+        @foreach($departments as $department)
+            <option value="{{ $department->DepartmentID }}" @if(old('DepartmentID', $outpatient->DepartmentID ?? '') == $department->DepartmentID) selected @endif>
+                {{ $department->DepartmentName }}
+            </option>
+        @endforeach
+    </select>
 </div>
+
 <div class="mb-3">
-    <label>Treatment</label>
-    <input type="text" name="Treatment" class="form-control" value="{{ old('Treatment', $outpatient->Treatment ?? '') }}" required>
+    <label for="VisitDate">Visit Date</label>
+    <input type="datetime-local" name="VisitDate" id="VisitDate" class="form-control" value="{{ old('VisitDate', $outpatient->VisitDate ?? '') }}" required>
 </div>
+
 <div class="mb-3">
-    <label>Doctor</label>
-    <input type="text" name="Doctor" class="form-control" value="{{ old('Doctor', $outpatient->Doctor ?? '') }}" required>
+    <label for="Reason">Reason</label>
+    <textarea name="Reason" id="Reason" class="form-control" required>{{ old('Reason', $outpatient->Reason ?? '') }}</textarea>
 </div>

@@ -9,24 +9,27 @@ class PatientMedication extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'MedicationID';
+    protected $primaryKey = 'PatientMedicationID';
 
     protected $fillable = [
-        'PatientID',
-        'PharmacyID',
-        'Dosage',
-        'Frequency',
-        'Duration',
+        'PatientID', 'MedicineID', 'DoctorID', 'Dosage', 'Frequency', 'StartDate', 'EndDate'
     ];
 
+    // Relationship with Patient
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'PatientID');
     }
 
-    public function pharmacy()
+    // Relationship with Medicine
+    public function medicine()
     {
-        return $this->belongsTo(Pharmacy::class, 'PharmacyID');
+        return $this->belongsTo(Pharmacy::class, 'MedicineID');
+    }
+
+    // Relationship with Doctor
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class, 'DoctorID');
     }
 }
-w

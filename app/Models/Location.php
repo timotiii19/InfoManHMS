@@ -10,12 +10,7 @@ class Location extends Model
     use HasFactory;
 
     protected $primaryKey = 'LocationID';
-
     protected $fillable = [
-        'LocationName',
-        'RoomName',
-        'RoomType',
-        'Capacity',
-        'Description',
+        'RoomType', 'RoomCapacity', 'Availability', 'Building', 'Floor', 'RoomNumber',
     ];
 }

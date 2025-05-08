@@ -9,15 +9,14 @@ return new class extends Migration {
     {
         Schema::create('nurses', function (Blueprint $table) {
             $table->id('NurseID');
-            $table->string('FirstName');
-            $table->string('LastName');
-            $table->string('Gender');
-            $table->date('DateOfBirth');
-            $table->string('Phone');
-            $table->string('Email')->unique();
-            $table->string('Address');
-            $table->string('Department');
+            $table->string('Name', 100);
+            $table->unsignedBigInteger('DepartmentID');
+            $table->string('Email', 100)->unique();
+            $table->string('Availability', 20);
+            $table->string('ContactNumber', 15);
             $table->timestamps();
+
+            $table->foreign('DepartmentID')->references('DepartmentID')->on('departments')->onDelete('cascade');
         });
     }
 

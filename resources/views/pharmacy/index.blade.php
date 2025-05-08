@@ -2,27 +2,31 @@
 
 @section('content')
 <div class="container">
-    <h2>Pharmacy Inventory</h2>
-    <a href="{{ route('pharmacy.create') }}" class="btn btn-primary mb-3">Add Medicine</a>
+    <h2>Medicines</h2>
+    <a href="{{ route('pharmacies.create') }}" class="btn btn-primary mb-3">Create Medicine</a>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Name</th><th>Manufacturer</th><th>Expiration</th><th>Qty</th><th>Price</th><th>Actions</th>
+                <th>Medicine Name</th>
+                <th>Pharmacist</th>
+                <th>Stock Quantity</th>
+                <th>Price</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($pharmacy as $medicine)
+            @foreach($pharmacies as $pharmacy)
             <tr>
-                <td>{{ $medicine->MedicineName }}</td>
-                <td>{{ $medicine->Manufacturer }}</td>
-                <td>{{ $medicine->ExpirationDate }}</td>
-                <td>{{ $medicine->Quantity }}</td>
-                <td>${{ number_format($medicine->Price, 2) }}</td>
+                <td>{{ $pharmacy->Description }}</td>
+                <td>{{ $pharmacy->pharmacist->Name }}</td>
+                <td>{{ $pharmacy->StockQuantity }}</td>
+                <td>{{ $pharmacy->Price }}</td>
                 <td>
-                    <a href="{{ route('pharmacy.edit', $medicine) }}" class="btn btn-sm btn-warning">Edit</a>
-                    <form action="{{ route('pharmacy.destroy', $medicine) }}" method="POST" class="d-inline">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this medicine?')">Delete</button>
+                    <a href="{{ route('pharmacies.edit', $pharmacy->MedicineID) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('pharmacies.destroy', $pharmacy->MedicineID) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
                     </form>
                 </td>
             </tr>

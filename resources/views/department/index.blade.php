@@ -7,19 +7,22 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Name</th><th>Description</th><th>Actions</th>
+                <th>Department Name</th>
+                <th>Room</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($department as $department)
+            @foreach($departments as $department)
             <tr>
                 <td>{{ $department->DepartmentName }}</td>
-                <td>{{ $department->Description }}</td>
+                <td>{{ $department->DepartmentRoom }}</td>
                 <td>
-                    <a href="{{ route('department.edit', $department) }}" class="btn btn-sm btn-warning">Edit</a>
-                    <form action="{{ route('department.destroy', $department) }}" method="POST" class="d-inline">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this department?')">Delete</button>
+                    <a href="{{ route('department.edit', $department->DepartmentID) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('department.destroy', $department->DepartmentID) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
                     </form>
                 </td>
             </tr>

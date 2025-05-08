@@ -11,16 +11,15 @@ class Billing extends Model
 
     protected $table = 'patient_billing';
 
-    protected $primaryKey = 'BillingID';
-
     protected $fillable = [
         'PatientID',
-        'BillingDate',
-        'Amount',
-        'Status',
-        'Description',
+        'DoctorFee',
+        'MedicineCost',
+        'PaymentDate',
+        'Receipt',
     ];
 
+    // Relationship to Patient
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'PatientID');

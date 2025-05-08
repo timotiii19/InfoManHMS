@@ -1,10 +1,6 @@
 <div class="mb-3">
-    <label>First Name</label>
-    <input type="text" name="FirstName" class="form-control" value="{{ old('FirstName', $cashier->FirstName ?? '') }}" required>
-</div>
-<div class="mb-3">
-    <label>Last Name</label>
-    <input type="text" name="LastName" class="form-control" value="{{ old('LastName', $cashier->LastName ?? '') }}" required>
+    <label for="Name" class="form-label">Name</label>
+    <input type="text" name="Name" id="Name" class="form-control" value="{{ old('Name', $cashier->Name ?? '') }}" required>
 </div>
 <div class="mb-3">
     <label>Email</label>

@@ -1,23 +1,27 @@
 <div class="mb-3">
-    <label for="patient_id" class="form-label">Patient ID</label>
-    <input type="number" name="patient_id" id="patient_id" class="form-control"
-           value="{{ old('patient_id', $billing->patient_id ?? '') }}" required>
+    <label>Patient</label>
+    <select name="PatientID" class="form-control" required>
+        <option value="">Select Patient</option>
+        @foreach($patients as $patient)
+            <option value="{{ $patient->PatientID }}" @if(old('PatientID', $billing->PatientID ?? '') == $patient->PatientID) selected @endif>
+                {{ $patient->FirstName }} {{ $patient->LastName }}
+            </option>
+        @endforeach
+    </select>
 </div>
-
 <div class="mb-3">
-    <label for="amount" class="form-label">Amount</label>
-    <input type="text" name="amount" id="amount" class="form-control"
-           value="{{ old('amount', $billing->amount ?? '') }}" required>
+    <label>Doctor Fee</label>
+    <input type="number" name="DoctorFee" class="form-control" value="{{ old('DoctorFee', $billing->DoctorFee ?? '') }}" required>
 </div>
-
 <div class="mb-3">
-    <label for="billing_date" class="form-label">Billing Date</label>
-    <input type="date" name="billing_date" id="billing_date" class="form-control"
-           value="{{ old('billing_date', isset($billing->billing_date) ? $billing->billing_date->format('Y-m-d') : '') }}" required>
+    <label>Medicine Cost</label>
+    <input type="number" name="MedicineCost" class="form-control" value="{{ old('MedicineCost', $billing->MedicineCost ?? '') }}" required>
 </div>
-
 <div class="mb-3">
-    <label for="description" class="form-label">Description</label>
-    <input type="text" name="description" id="description" class="form-control"
-           value="{{ old('description', $billing->description ?? '') }}">
+    <label>Payment Date</label>
+    <input type="date" name="PaymentDate" class="form-control" value="{{ old('PaymentDate', $billing->PaymentDate ?? '') }}" required>
+</div>
+<div class="mb-3">
+    <label>Receipt</label>
+    <input type="text" name="Receipt" class="form-control" value="{{ old('Receipt', $billing->Receipt ?? '') }}" required>
 </div>

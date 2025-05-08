@@ -10,13 +10,15 @@ return new class extends Migration {
         Schema::create('outpatients', function (Blueprint $table) {
             $table->id('OutpatientID');
             $table->unsignedBigInteger('PatientID');
-            $table->date('VisitDate');
-            $table->string('Diagnosis');
-            $table->string('Treatment');
-            $table->string('Doctor');
+            $table->unsignedBigInteger('DoctorID');
+            $table->unsignedBigInteger('DepartmentID');
+            $table->dateTime('VisitDate');
+            $table->text('Reason');
             $table->timestamps();
 
             $table->foreign('PatientID')->references('PatientID')->on('patients')->onDelete('cascade');
+            $table->foreign('DoctorID')->references('DoctorID')->on('doctors')->onDelete('cascade');
+            $table->foreign('DepartmentID')->references('DepartmentID')->on('departments')->onDelete('cascade');
         });
     }
 

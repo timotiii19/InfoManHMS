@@ -2,13 +2,11 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Create Billing</h1>
-
-    <form method="POST" action="{{ route('billings.store') }}">
+    <h2>Add Billing</h2>
+    <form method="POST" action="{{ route('billing.store') }}">
         @csrf
-        @include('billings.form')
-
-        <button type="submit" class="btn btn-primary">Save</button>
+        @include('billing.form')
+        <button type="submit" class="btn btn-success">Save</button>
     </form>
 </div>
 @endsection

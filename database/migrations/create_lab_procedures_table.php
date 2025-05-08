@@ -8,14 +8,16 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('lab_procedures', function (Blueprint $table) {
-            $table->id('ProcedureID');
+            $table->id('LabProcedureID');
             $table->unsignedBigInteger('PatientID');
-            $table->string('ProcedureType', 100);
-            $table->date('ProcedureDate');
-            $table->text('Results')->nullable();
+            $table->unsignedBigInteger('DoctorID');
+            $table->dateTime('TestDate');
+            $table->text('Result');
+            $table->date('DateReleased');
             $table->timestamps();
 
             $table->foreign('PatientID')->references('PatientID')->on('patients')->onDelete('cascade');
+            $table->foreign('DoctorID')->references('DoctorID')->on('doctors')->onDelete('cascade');
         });
     }
 

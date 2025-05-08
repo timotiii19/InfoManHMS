@@ -9,17 +9,18 @@ class LabProcedure extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'ProcedureID';
-
+    protected $primaryKey = 'LabProcedureID';
     protected $fillable = [
-        'PatientID',
-        'ProcedureType',
-        'ProcedureDate',
-        'Results',
+        'PatientID', 'DoctorID', 'TestDate', 'Result', 'DateReleased',
     ];
 
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'PatientID');
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class, 'DoctorID');
     }
 }

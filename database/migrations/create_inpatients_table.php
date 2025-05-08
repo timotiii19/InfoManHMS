@@ -10,14 +10,17 @@ return new class extends Migration {
         Schema::create('inpatients', function (Blueprint $table) {
             $table->id('InpatientID');
             $table->unsignedBigInteger('PatientID');
-            $table->date('AdmissionDate');
-            $table->date('DischargeDate')->nullable();
-            $table->string('Diagnosis');
-            $table->string('Treatment');
-            $table->string('Doctor');
+            $table->unsignedBigInteger('DoctorID');
+            $table->unsignedBigInteger('DepartmentID');
+            $table->unsignedBigInteger('LocationID');
+            $table->string('Availability', 10);
+            $table->text('MedicalRecord');
             $table->timestamps();
 
             $table->foreign('PatientID')->references('PatientID')->on('patients')->onDelete('cascade');
+            $table->foreign('DoctorID')->references('DoctorID')->on('doctors')->onDelete('cascade');
+            $table->foreign('DepartmentID')->references('DepartmentID')->on('departments')->onDelete('cascade');
+            $table->foreign('LocationID')->references('LocationID')->on('locations')->onDelete('cascade');
         });
     }
 

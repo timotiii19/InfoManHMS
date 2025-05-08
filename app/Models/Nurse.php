@@ -12,13 +12,12 @@ class Nurse extends Model
     protected $primaryKey = 'NurseID';
 
     protected $fillable = [
-        'FirstName',
-        'LastName',
-        'Gender',
-        'DateOfBirth',
-        'Phone',
-        'Email',
-        'Address',
-        'Department',
+        'Name', 'DepartmentID', 'Email', 'Availability', 'ContactNumber'
     ];
+
+    // Relationship with Department
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'DepartmentID');
+    }
 }

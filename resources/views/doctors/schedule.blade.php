@@ -1,7 +1,8 @@
 @extends('layouts.app')
+
 @section('content')
 <div class="container">
-    <h3>Today's Schedule for Dr. {{ $doctor->name }}</h3>
+    <h3>Today's Schedule for Dr. {{ $doctor->DoctorName }}</h3>
 
     @if($appointments->count())
     <table class="table table-striped">
@@ -14,7 +15,7 @@
         <tbody>
             @foreach($appointments as $appt)
             <tr>
-                <td>{{ $appt->patient->name }}</td>
+                <td>{{ $appt->patient->Name }}</td>
                 <td>{{ \Carbon\Carbon::parse($appt->appointment_time)->format('h:i A') }}</td>
             </tr>
             @endforeach
@@ -23,5 +24,7 @@
     @else
     <p>No appointments for today.</p>
     @endif
+
+    <a href="{{ route('doctors.index') }}" class="btn btn-secondary mt-3">Back to Doctors</a>
 </div>
 @endsection

@@ -9,17 +9,28 @@ class Emergency extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'EmergencyID';
+    protected $table = 'emergencies';
 
     protected $fillable = [
-        'PatientID',
-        'Condition',
-        'ArrivalTime',
-        'ActionsTaken',
+        'PatientID', 
+        'NurseID', 
+        'DoctorID', 
+        'DateTime', 
+        'EmergencyType'
     ];
 
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'PatientID');
+    }
+
+    public function nurse()
+    {
+        return $this->belongsTo(Nurse::class, 'NurseID');
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class, 'DoctorID');
     }
 }

@@ -3,58 +3,63 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pharmacy;
+use App\Models\Pharmacist;
 use Illuminate\Http\Request;
 
 class PharmacyController extends Controller
 {
     public function index()
     {
-        $pharmacy = Pharmacy::all(); // Example of fetching data
-        return view('pharmacy.index', compact('pharmacy'));
-
+        $pharmacies = Pharmacy::with('pharmacist')->get();
+        return view('pharmacies.index', compact('pharmacies'));
     }
 
     public function create()
     {
-        return view('pharmacy.create');
+        $pharmacists = Pharmacist::all();
+        return view('pharmacies.create', compact('pharmacists'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'MedicineName' => 'required|string|max:100',
-            'Manufacturer' => 'nullable|string|max:100',
-            'ExpirationDate' => 'required|date',
-            'Quantity' => 'required|integer|min:0',
-            'Price' => 'required|numeric|min:0',
+        $request->validate([
+            'PharmacistID' => 'required|exists:pharmacists,PharmacistID',
+            'Description' => 'required',
+            'StockQuantity' => 'required|integer',
+            'Price' => 'required|numeric|min:0.01',
         ]);
 
-        Pharmacy::create($validated);
-        return redirect()->route('pharmacy.index')->with('success', 'Medicine added.');
+        Pharmacy::create($request->all());
+        return redirect()->route('pharmacies.index')->with('success', 'Medicine added successfully');
     }
 
-    public function edit(Pharmacy $pharmacy)
+    public function edit($id)
     {
-        return view('pharmacy.edit', compact('pharmacy'));
+        $pharmacy = Pharmacy::findOrFail($id);
+        $pharmacists = Pharmacist::all();
+        return view('pharmacies.edit', compact('pharmacy', 'pharmacists'));
     }
 
-    public function update(Request $request, Pharmacy $pharmacy)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'MedicineName' => 'required|string|max:100',
-            'Manufacturer' => 'nullable|string|max:100',
-            'ExpirationDate' => 'required|date',
-            'Quantity' => 'required|integer|min:0',
-            'Price' => 'required|numeric|min:0',
+        $request->validate([
+            'PharmacistID' => 'required|exists:pharmacists,PharmacistID',
+            'Description' => 'required',
+            'StockQuantity' => 'required|integer',
+            'Price' => 'required|numeric|min:0.01',
         ]);
 
-        $pharmacy->update($validated);
-        return redirect()->route('pharmacy.index')->with('success', 'Medicine updated.');
+        $pharmacy = Pharmacy::findOrFail($id);
+        $pharmacy->update($request->all());
+
+        return redirect()->route('pharmacies.index')->with('success', 'Medicine updated successfully');
     }
 
-    public function destroy(Pharmacy $pharmacy)
+    public function destroy($id)
     {
+        $pharmacy = Pharmacy::findOrFail($id);
         $pharmacy->delete();
-        return redirect()->route('pharmacy.index')->with('success', 'Medicine deleted.');
+
+        return redirect()->route('pharmacies.index')->with('success', 'Medicine deleted successfully');
     }
 }

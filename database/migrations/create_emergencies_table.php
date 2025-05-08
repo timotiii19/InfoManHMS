@@ -10,12 +10,15 @@ return new class extends Migration {
         Schema::create('emergencies', function (Blueprint $table) {
             $table->id('EmergencyID');
             $table->unsignedBigInteger('PatientID');
-            $table->string('Condition', 255);
-            $table->dateTime('ArrivalTime');
-            $table->text('ActionsTaken')->nullable();
+            $table->unsignedBigInteger('NurseID');
+            $table->unsignedBigInteger('DoctorID');
+            $table->dateTime('DateTime');
+            $table->string('EmergencyType', 100);
             $table->timestamps();
 
             $table->foreign('PatientID')->references('PatientID')->on('patients')->onDelete('cascade');
+            $table->foreign('NurseID')->references('NurseID')->on('nurses')->onDelete('cascade');
+            $table->foreign('DoctorID')->references('DoctorID')->on('doctors')->onDelete('cascade');
         });
     }
 

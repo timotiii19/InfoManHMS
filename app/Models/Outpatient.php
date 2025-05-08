@@ -12,15 +12,24 @@ class Outpatient extends Model
     protected $primaryKey = 'OutpatientID';
 
     protected $fillable = [
-        'PatientID',
-        'VisitDate',
-        'Diagnosis',
-        'Treatment',
-        'Doctor',
+        'PatientID', 'DoctorID', 'DepartmentID', 'VisitDate', 'Reason'
     ];
 
+    // Relationship with Patient
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'PatientID', 'PatientID');
+        return $this->belongsTo(Patient::class, 'PatientID');
+    }
+
+    // Relationship with Doctor
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class, 'DoctorID');
+    }
+
+    // Relationship with Department
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'DepartmentID');
     }
 }

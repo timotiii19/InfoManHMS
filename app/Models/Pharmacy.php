@@ -9,11 +9,20 @@ class Pharmacy extends Model
 {
     use HasFactory;
 
-    protected $table = 'pharmacy'; // <-- specify table name manually
+    // Define the table associated with the model (optional if you follow Laravel's convention)
+    protected $table = 'pharmacies';
 
-    protected $primaryKey = 'PharmacyID';
-
+    // Specify the fillable attributes (columns you can mass assign)
     protected $fillable = [
-        'PharmacyName', 'Phone', 'Address',
+        'PharmacistID',
+        'Description',
+        'StockQuantity',
+        'Price',
     ];
+
+    // Define the relationship with the Pharmacist model
+    public function pharmacist()
+    {
+        return $this->belongsTo(Pharmacist::class, 'PharmacistID');
+    }
 }

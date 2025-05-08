@@ -17,7 +17,7 @@
                 <th>Availability</th>
                 <th>Contact</th>
                 <th>Type</th>
-                <th>Room</th>
+                <th>Room Type</th>
                 <th>Department</th>
                 <th>Location</th>
                 <th>Actions</th>
@@ -33,7 +33,7 @@
                 <td>{{ $doc->DoctorType }}</td>
                 <td>{{ $doc->RoomType }}</td>
                 <td>{{ $doc->department->DepartmentName ?? 'N/A' }}</td>
-                <td>{{ $doc->location->LocationName ?? 'N/A' }}</td>
+                <td>{{ $doc->location->Building ?? 'N/A' }} - Room {{ $doc->location->RoomNumber ?? '' }}</td>
                 <td>
                     <a href="{{ route('doctors.edit', $doc->DoctorID) }}" class="btn btn-sm btn-warning">Edit</a>
                     <form action="{{ route('doctors.destroy', $doc->DoctorID) }}" method="POST" style="display:inline;">

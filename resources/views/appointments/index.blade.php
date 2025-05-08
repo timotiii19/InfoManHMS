@@ -3,15 +3,15 @@
 @section('content')
 <div class="container">
     <h2>Appointments</h2>
-    <a href="{{ route('appointments.create') }}" class="btn btn-primary mb-3">Add Appointment</a>
+    <a href="{{ route('appointments.create') }}" class="btn btn-primary mb-3">Create Appointment</a>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Patient</th>
-                <th>Doctor</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Status</th>
+                <th>Patient Name</th>
+                <th>Doctor Name</th>
+                <th>Department</th>
+                <th>Visit Date</th>
+                <th>Reason</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -19,17 +19,16 @@
             @foreach($appointments as $appointment)
             <tr>
                 <td>{{ $appointment->patient->FirstName }} {{ $appointment->patient->LastName }}</td>
-                <td>{{ $appointment->doctor->DoctorName }}</td>
-                <td>{{ $appointment->AppointmentDate }}</td>
-                <td>{{ $appointment->AppointmentTime }}</td>
-                <td>{{ $appointment->Status }}</td>
+                <td>{{ $appointment->doctor->FirstName }} {{ $appointment->doctor->LastName }}</td>
+                <td>{{ $appointment->department->DepartmentName }}</td>
+                <td>{{ $appointment->VisitDate }}</td>
+                <td>{{ $appointment->Reason }}</td>
                 <td>
-                    <a href="{{ route('appointments.edit', $appointment->AppointmentID) }}" class="btn btn-sm btn-warning">Edit</a>
-
-                    <form action="{{ route('appointments.destroy', $appointment->AppointmentID) }}" method="POST" style="display:inline;">
+                    <a href="{{ route('appointments.edit', $appointment->OutpatientID) }}" class="btn btn-sm btn-warning">Edit</a>
+                    <form action="{{ route('appointments.destroy', $appointment->OutpatientID) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                        <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
                     </form>
                 </td>
             </tr>

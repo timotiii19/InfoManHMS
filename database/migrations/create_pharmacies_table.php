@@ -8,13 +8,14 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('pharmacies', function (Blueprint $table) {
-            $table->id('PharmacyID');
-            $table->string('MedicineName', 100);
-            $table->string('Manufacturer', 100)->nullable();
-            $table->date('ExpirationDate');
-            $table->integer('Quantity');
-            $table->decimal('Price', 8, 2);
+            $table->id('MedicineID');
+            $table->unsignedBigInteger('PharmacistID');
+            $table->text('Description');
+            $table->integer('StockQuantity');
+            $table->decimal('Price', 20, 5)->check('Price > 0');
             $table->timestamps();
+
+            $table->foreign('PharmacistID')->references('PharmacistID')->on('pharmacists')->onDelete('cascade');
         });
     }
 
